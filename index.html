@@ -121,7 +121,7 @@ input,textarea{width:100%;font:16px Nunito,sans-serif;padding:12px;border-radius
 </header>
 
 <nav class="tabs"><div class="wrap">
-  <a href="#brownies">Brownies</a><a href="#cupcakes">Cupcakes</a><a href="#cheesecakes">Cheesecakes</a><a href="#cakes">Celebration cakes</a><a href="#theme">Theme cakes</a>
+  <a href="#brownies">Brownies</a><a href="#cupcakes">Cupcakes</a><a href="#cookies">Cookies</a><a href="#cheesecakes">Cheesecakes</a><a href="#cakes">Celebration cakes</a><a href="#theme">Theme cakes</a>
 </div></nav>
 
 <main class="wrap">
@@ -135,6 +135,11 @@ input,textarea{width:100%;font:16px Nunito,sans-serif;padding:12px;border-radius
   <section id="cupcakes">
     <h2>Cupcakes</h2><p class="h2s">Boxes of 6 or 12</p>
     <div class="grid" id="m-cupcakes"></div>
+  </section>
+
+  <section id="cookies">
+    <h2>Cookies</h2><p class="h2s">Boxes of 6 or 12</p>
+    <div class="grid" id="m-cookies"></div>
   </section>
 
   <section id="cheesecakes">
@@ -176,7 +181,8 @@ input,textarea{width:100%;font:16px Nunito,sans-serif;padding:12px;border-radius
 const WA='96879994021';
 const menu={
  brownies:[['Plain brownies',3,4,'m-plain'],['Fudge brownies',4,6,'brownies'],['Loaded brownies',7,9,'m-loaded']],
- cupcakes:[['Vanilla or chocolate cupcakes',3,5,'m-vanchoc'],['Mocha cupcakes',4,6,'mocha'],['Marble cupcakes',4,8,'m-marble'],['Cookies n cream cupcakes',4,8,'m-oreo'],['Biscoff cupcakes',4,8,'m-biscoff']]
+ cupcakes:[['Vanilla or chocolate cupcakes',3,5,'m-vanchoc'],['Mocha cupcakes',4,6,'mocha'],['Marble cupcakes',4,8,'m-marble'],['Cookies n cream cupcakes',4,8,'m-oreo'],['Biscoff cupcakes',4,8,'m-biscoff']],
+ cookies:[['Chocolate chip cookies',3,5,'https://unsplash.com/photos/8DWN4Gui9Yk/download?w=600'],['Double chocolate cookies',4,6,'https://unsplash.com/photos/4fl4XVhH8Y4/download?w=600'],['Chunky chocolate cookies',4,7,'https://unsplash.com/photos/W8blK2FRmBw/download?w=600']]
 };
 const gal={
  cheesecakes:[['cheese','Lotus Biscoff cheesecake'],['cheese-top','Biscoff cheesecake, top view']],
@@ -186,7 +192,7 @@ const gal={
 const cart={};
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 for(const k in menu){
- document.getElementById('m-'+k).innerHTML=menu[k].map(([n,a,b,img])=>`<div class="tile"><img src="images/${img}.jpg" alt="${esc(n)}" loading="lazy"><div class="tx"><h3>${esc(n)}</h3>
+ document.getElementById('m-'+k).innerHTML=menu[k].map(([n,a,b,img])=>`<div class="tile"><img src="${img.startsWith('http')?img:'images/'+img+'.jpg'}" alt="${esc(n)}" loading="lazy" onerror="this.style.visibility='hidden'"><div class="tx"><h3>${esc(n)}</h3>
  <div class="opts">${[[6,a],[12,b]].map(([q,p])=>`<button class="opt" data-id="${esc(n)}|${q}" data-p="${p}"><span class="qty">${q} pcs</span><span class="p">${p} OMR</span><span class="badge"></span></button>`).join('')}</div></div></div>`).join('');
 }
 for(const k in gal){
