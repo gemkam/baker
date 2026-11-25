@@ -200,6 +200,8 @@ main section>.h2s{text-align:center;max-width:34ch;margin:0 auto 16px;text-wrap:
 .bgpat.on{opacity:.11}
 @media(prefers-color-scheme:dark){.bgpat{filter:invert(1) hue-rotate(180deg)}}
 html{background:var(--pg2)}
+.veil{position:fixed;inset:0;z-index:4;pointer-events:none;opacity:0;background:linear-gradient(170deg,var(--pg1) 0%,var(--pg2) 50%,var(--pg1) 100%);transition:opacity .38s ease}
+.veil.on{opacity:1;transition:opacity .22s ease}
 body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;background:linear-gradient(170deg,var(--pg1) 0%,var(--pg2) 50%,var(--pg1) 100%)}
 /* faint rise-in of menu cards while scrolling */
 @media(prefers-reduced-motion:no-preference){
@@ -519,7 +521,15 @@ if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>es.fo
 else document.querySelectorAll('main section,.custom,.grid .tile').forEach(el=>el.classList.add('in'));
 if('scrollRestoration' in history)history.scrollRestoration='manual';
 if(!location.hash.startsWith('#p-')){if(location.hash)history.replaceState(null,'',location.pathname+location.search);scrollTo(0,0);addEventListener('load',()=>scrollTo(0,0))}
-document.addEventListener('click',e=>{const a=e.target.closest('a[href^="#"]');if(!a)return;const id=a.getAttribute('href').slice(1);const el=id&&document.getElementById(id);if(!el)return;e.preventDefault();el.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})});
+/* section jump: soft fade instead of fast scrolling up or down */
+const veil=document.createElement('div');veil.className='veil';veil.setAttribute('aria-hidden','true');document.body.appendChild(veil);
+let jumping=false;
+function jumpTo(el){
+ if(matchMedia('(prefers-reduced-motion: reduce)').matches){el.scrollIntoView({behavior:'auto'});return}
+ if(jumping)return;jumping=true;veil.classList.add('on');
+ setTimeout(()=>{el.scrollIntoView({behavior:'auto'});
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{veil.classList.remove('on');setTimeout(()=>{jumping=false},380)}))},220)}
+document.addEventListener('click',e=>{const a=e.target.closest('a[href^="#"]');if(!a)return;const id=a.getAttribute('href').slice(1);const el=id&&document.getElementById(id);if(!el)return;e.preventDefault();jumpTo(el)});
 const hl=()=>{const el=location.hash.startsWith('#p-')&&document.querySelector(location.hash);if(el){el.scrollIntoView({block:'center'});el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),2500)}};
 addEventListener('hashchange',hl);setTimeout(hl,300);
 }
