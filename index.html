@@ -100,10 +100,41 @@ input,textarea{width:100%;font:16px Nunito,sans-serif;padding:12px;border-radius
 .zoom.on{display:grid}.zoom img{max-width:100%;max-height:90vh;border-radius:16px}
 @media(min-width:600px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.banner{height:260px}}
 @media(prefers-reduced-motion:no-preference){.opt:active{transform:scale(.95)}}
+/* intro video: video loops, title layers animate once and stay */
+.intro{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:9/16;overflow:hidden;background:#2a160c}
+.intro video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.intro .shade{position:absolute;inset:0 0 auto 0;height:55%;background:linear-gradient(rgba(20,8,2,.6),rgba(20,8,2,0));pointer-events:none}
+.intro .lay{position:absolute;transform:translate(-50%,-50%);pointer-events:none}
+.intro .ttl{left:50%;top:19.3%;width:81%}
+.intro .bw{top:25.8%;width:14%}
+.intro .bw.l{left:16%}.intro .bw.r{left:84%}
+.intro .bw.r img{transform:scaleX(-1)}
+.intro .by{left:50%;top:33.4%;width:72%}
+.intro .lay img{width:100%;display:block}
+.intro .down{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);min-height:44px;padding:0 18px;border-radius:99px;background:rgba(123,45,142,.92);color:#fff;font-weight:800;text-decoration:none;display:flex;align-items:center;gap:6px}
+@media(prefers-reduced-motion:no-preference){
+.intro .ttl img{animation:zoomOut 1.1s cubic-bezier(.2,.7,.2,1) both}
+.intro .bw img{animation:pop .5s cubic-bezier(.34,1.56,.64,1) 1.1s both}
+.intro .bw.r img{animation-name:popR}
+.intro .by img{animation:rise .7s ease-out 1.6s both}
+.intro .down{animation:rise .6s ease-out 2.3s both}
+@keyframes zoomOut{from{transform:scale(1.9);opacity:0}45%{opacity:1}to{transform:scale(1);opacity:1}}
+@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+@keyframes popR{from{transform:scaleX(-1) scale(0)}to{transform:scaleX(-1) scale(1)}}
+@keyframes rise{from{opacity:0;translate:0 30px}to{opacity:1;translate:0 0}}}
 </style>
 </head>
 <body>
-<header class="top">
+<div class="intro">
+  <video src="images/intro/intro.mp4" poster="images/intro/poster.jpg" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
+  <div class="shade"></div>
+  <div class="lay ttl"><img src="images/intro/title.webp" alt="Sculpted Slice"></div>
+  <div class="lay bw l"><img src="images/intro/brownie.png" alt=""></div>
+  <div class="lay bw r"><img src="images/intro/brownie.png" alt=""></div>
+  <div class="lay by"><img src="images/intro/byline.webp" alt="By Maryam Baker"></div>
+  <a class="down" href="#menu">See the menu ↓</a>
+</div>
+<header class="top" id="menu">
   <h1 class="logo">sculpted<i>_</i>slice</h1>
   <div class="tag">Homemade cakes and bakes in Muscat</div>
   <div class="baker">
