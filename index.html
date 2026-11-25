@@ -283,6 +283,18 @@ html[lang=ar] .sbtn{font-family:"Baloo Bhaijaan 2",Nunito,sans-serif}
 @keyframes snow{from{transform:translate(0,0)}to{transform:translate(18px,112cqh)}}
 @keyframes spark{0%{transform:translate(0,0) scale(.6);opacity:0}15%{opacity:1}100%{transform:translate(-10px,112cqh) scale(1);opacity:.2}}
 @media(prefers-reduced-motion:reduce){.sfx{display:none}}
+@property --ba{syntax:'<angle>';initial-value:0deg;inherits:false}
+:root{--o1:#ff7eb6;--o2:#b05ad6;--o3:#7fd6df}
+.sea-xmas{--o1:#e2384d;--o2:#2e9e5b;--o3:#ffd76a}
+.sea-ny{--o1:#ffd76a;--o2:#8a4fd8;--o3:#fff3c4}
+.grid .tile::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:2.5px;pointer-events:none;z-index:4;
+ background:conic-gradient(from var(--ba),var(--o1),var(--o2),var(--o3),var(--o1));
+ -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
+ animation:bspin 7s linear infinite}
+.grid .tile{box-shadow:0 0 0 0 transparent;animation:bglow 3.5s ease-in-out infinite}
+@keyframes bspin{to{--ba:360deg}}
+@keyframes bglow{0%,100%{box-shadow:0 4px 14px -6px color-mix(in srgb,var(--o2) 35%,transparent)}50%{box-shadow:0 6px 22px -4px color-mix(in srgb,var(--o1) 55%,transparent)}}
+@media(prefers-reduced-motion:reduce){.grid .tile::after,.grid .tile{animation:none}}
 .veil{position:fixed;inset:0;z-index:4;pointer-events:none;opacity:0;background:linear-gradient(170deg,var(--pg1) 0%,var(--pg2) 50%,var(--pg1) 100%);transition:opacity .38s ease}
 .veil.on{opacity:1;transition:opacity .22s ease}
 body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;background:linear-gradient(170deg,var(--pg1) 0%,var(--pg2) 50%,var(--pg1) 100%)}
@@ -852,7 +864,7 @@ NMS.ar['Custom cake']='كيكة حسب تصميمك';
 /* ---------- Seasons: Christmas and New Year (by Muscat date) ---------- */
 const SEA=(()=>{const q=new URLSearchParams(location.search).get('season');if(q==='xmas'||q==='ny')return q;
  const d=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Muscat'}));const m=d.getMonth(),dd=d.getDate();
- if((m===10&&dd>=25)||(m===11&&dd<=26))return 'xmas';if((m===11&&dd>=27)||(m===0&&dd<=3))return 'ny';return ''})();
+ if(m===11&&dd<=26)return 'xmas';if((m===11&&dd>=27)||(m===0&&dd<=3))return 'ny';return ''})();
 const NYY=(()=>{const d=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Muscat'}));return d.getMonth()===0?d.getFullYear():d.getFullYear()+1})();
 Object.assign(PT.en,{xmas:'Christmas',ny:'New Year',look:'Festive look',lxmas:'🎄 Christmas look',lny:'🎆 New Year look',plan:'🎉 Plan my party',
  sxmas:'🎄 <b>Christmas treats are here!</b> Brownies, cupcakes, biscuit boxes and cakes for your Christmas table. Order early for 24 and 25 December.',
