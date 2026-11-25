@@ -121,8 +121,10 @@ footer b{color:var(--ink)}
 .adv-s{margin:4px 0 6px;font-size:13px}
 .note .advn{display:block;padding:10px 12px;border-radius:12px;background:var(--pink);font-weight:600}
 .advn a{color:var(--plum2);font-weight:800}
-.policy ol{margin:8px 0 0;padding:16px 16px 16px 34px;background:var(--card);border:2px solid var(--line);border-radius:20px}
-.policy li{margin:0 0 10px;line-height:1.5}.policy li:last-child{margin:0}
+.policy ol{margin:14px 0 0;padding:0;list-style:none;counter-reset:pl;display:grid;gap:10px}
+.policy li{counter-increment:pl;position:relative;padding:12px 14px 12px 52px;border-radius:16px;background:var(--aqua);line-height:1.5;text-align:justify;text-align-last:left}
+.policy li:nth-child(even){background:var(--pink)}
+.policy li::before{content:counter(pl);position:absolute;left:12px;top:12px;width:28px;height:28px;border-radius:50%;background:var(--plum);color:#fff;font:800 15px/28px "Baloo 2",sans-serif;text-align:center;text-align-last:center}
 .alg{border:2px solid var(--line);border-radius:16px;margin:14px 0 0;padding:10px 12px 8px}
 .alg legend{font-weight:800;padding:0 6px}.alg legend small{font-weight:600;color:var(--soft)}
 .algr{display:flex;flex-direction:column;gap:6px;padding:7px 0;border-bottom:1px dashed var(--line)}
@@ -329,17 +331,12 @@ body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;ba
 
   <section id="policy" class="policy">
     <h2>Read First</h2><p class="h2s">Please read this before you order</p>
-    <div class="note">
-    <p>⏰ Brownies, cupcakes, cookies and biscuits: please order <b>2 days</b> before. All cakes: please order at least <b>3 days</b> before.</p>
-    <p>🛒 Tap a box size or cake weight to add it, then send your order on WhatsApp.</p>
-    <p class="advn">💳 Brownies, cupcakes, cookies and biscuits: <b>full payment in advance</b>. Cakes: <b>50% advance</b> to book, balance before handover.</p>
-  </div>
-    <h3 class="ph">Order policy</h3>
     <ol>
+      <li><b>Order time.</b> Brownies, cupcakes, cookies and biscuits: at least <b>2 days</b> before. All cakes: at least <b>3 days</b> before.</li>
+      <li><b>How to order.</b> Tap a box size or cake weight to add it to your order, then send your order on WhatsApp.</li>
       <li><b>Payment.</b> Brownies, cupcakes, cookies and biscuits are paid <b>100% in advance</b>. Cakes need a <b>50% advance</b> to book your date, and the balance is paid <b>before pickup or delivery</b>.</li>
       <li><b>Order confirmation.</b> Your order is confirmed only after the advance is received. Payment details are shared on WhatsApp.</li>
       <li><b>Cake photo approval.</b> When your cake is ready, we send you a photo on WhatsApp. Once you approve it and pay the balance, the cake is handed over.</li>
-      <li><b>Order time.</b> Brownies, cupcakes, cookies and biscuits: at least 2 days before. All cakes: at least 3 days before.</li>
       <li><b>Changes and cancellation.</b> Changes to flavour, theme or message are accepted up to 2 days before your date. The advance is non-refundable once baking has started.</li>
       <li><b>Quality check.</b> Please check your order at pickup or delivery. If there is any problem, send us a photo within 2 hours and before eating. We will replace the item or give a discount on your next order. No refunds after the items are eaten.</li>
       <li><b>Allergies and diet.</b> When you order, you choose egg or eggless, with dairy or dairy-free, regular or gluten-free, and nuts or no nuts, and you can name any nut you are allergic to. We will confirm on WhatsApp if your items can be made that way. Everything is homemade in a kitchen that also uses eggs, dairy, wheat and nuts, so we cannot promise zero traces.</li>
