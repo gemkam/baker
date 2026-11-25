@@ -273,6 +273,8 @@ nav.tabs a.nf{background:linear-gradient(90deg,#c2408f,#7b2d8e);color:#fff}
 .season{margin:16px 0 0;padding:14px 16px;border-radius:18px;color:#fff;box-shadow:0 10px 24px rgba(0,0,0,.18);position:relative;overflow:hidden}
 .sea-xmas .season{background:linear-gradient(120deg,#b3122e,#d7263d 45%,#1f7a4d)}
 .sea-ny .season{background:linear-gradient(120deg,#1b1035,#3a1d6e 55%,#b8860b)}
+.sea-winter .season{background:linear-gradient(120deg,#2b6cb0,#5aa9e6 50%,#9f8ce8)}
+.sea-winter .sfx i{opacity:.7;animation-duration:12s!important}
 .season p{margin:0 0 10px;font-weight:700;line-height:1.5;text-align:start}
 .season b{font-size:1.08em}
 .sbtn{border:0;border-radius:99px;padding:10px 16px;background:#fff;color:#7b2d8e;font:800 14.5px Nunito,sans-serif;cursor:pointer}
@@ -287,6 +289,7 @@ html[lang=ar] .sbtn{font-family:"Baloo Bhaijaan 2",Nunito,sans-serif}
 :root{--o1:#ff7eb6;--o2:#b05ad6;--o3:#7fd6df}
 .sea-xmas{--o1:#e2384d;--o2:#2e9e5b;--o3:#ffd76a}
 .sea-ny{--o1:#ffd76a;--o2:#8a4fd8;--o3:#fff3c4}
+.sea-winter{--o1:#8fd3f4;--o2:#b9a7f0;--o3:#ffffff}
 .grid .tile::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:2.5px;pointer-events:none;z-index:4;
  background:conic-gradient(from var(--ba),var(--o1),var(--o2),var(--o3),var(--o1));
  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
@@ -862,25 +865,25 @@ document.addEventListener('input',e=>{if(e.target.id=='dzm'){DS.msg=e.target.val
 NMS.ar['Custom cake']='كيكة حسب تصميمك';
 
 /* ---------- Seasons: Christmas and New Year (by Muscat date) ---------- */
-const SEA=(()=>{const q=new URLSearchParams(location.search).get('season');if(q==='xmas'||q==='ny')return q;
+const SEA=(()=>{const q=new URLSearchParams(location.search).get('season');if(q==='xmas'||q==='ny'||q==='winter')return q;if(q==='off')return '';
  const d=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Muscat'}));const m=d.getMonth(),dd=d.getDate();
- if(m===11&&dd<=26)return 'xmas';if((m===11&&dd>=27)||(m===0&&dd<=3))return 'ny';return ''})();
+ if(m===11&&dd<=26)return 'xmas';if((m===11&&dd>=27)||(m===0&&dd<=3))return 'ny';if((m===10&&dd>=15)||m===0||m===1)return 'winter';return ''})();
 const NYY=(()=>{const d=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Muscat'}));return d.getMonth()===0?d.getFullYear():d.getFullYear()+1})();
-Object.assign(PT.en,{xmas:'Christmas',ny:'New Year',look:'Festive look',lxmas:'🎄 Christmas look',lny:'🎆 New Year look',plan:'🎉 Plan my party',
+Object.assign(PT.en,{winter:'Winter picnic',lwinter:'❄️ Winter look',swinter:'❄️ <b>Winter treats are here!</b> Brownies, cupcakes, biscuit boxes and cakes for cool evenings, family gatherings and winter picnics.',xmas:'Christmas',ny:'New Year',look:'Festive look',lxmas:'🎄 Christmas look',lny:'🎆 New Year look',plan:'🎉 Plan my party',
  sxmas:'🎄 <b>Christmas treats are here!</b> Brownies, cupcakes, biscuit boxes and cakes for your Christmas table. Order early for 24 and 25 December.',
  sny:'🎆 <b>Welcome {y} with something sweet!</b> Party boxes and cakes for your New Year celebration. Order early for 31 December.'});
-Object.assign(PT.ar,{xmas:'الكريسمس',ny:'رأس السنة',look:'لوك المناسبة',lxmas:'🎄 لوك الكريسمس',lny:'🎆 لوك رأس السنة',plan:'🎉 خطط حفلتك',
+Object.assign(PT.ar,{winter:'كشتة الشتاء',lwinter:'❄️ لوك الشتاء',swinter:'❄️ <b>حلويات الشتاء وصلت!</b> براونيز وكب كيك وعلب بسكويت وكيك حق الجلسات الحلوة وتجمعات العائلة وكشتات الشتاء.',xmas:'الكريسمس',ny:'رأس السنة',look:'لوك المناسبة',lxmas:'🎄 لوك الكريسمس',lny:'🎆 لوك رأس السنة',plan:'🎉 خطط حفلتك',
  sxmas:'🎄 <b>حلويات الكريسمس وصلت!</b> براونيز وكب كيك وعلب بسكويت وكيك حق طاولة الكريسمس. اطلب بدري حق 24 و25 ديسمبر.',
  sny:'🎆 <b>استقبل {y} بشي حلو!</b> علب حفلات وكيك حق احتفال رأس السنة. اطلب بدري حق 31 ديسمبر.'});
-Object.assign(PT.ur,{xmas:'Christmas',ny:'New Year',look:'Tehwar look',lxmas:'🎄 Christmas look',lny:'🎆 New Year look',plan:'🎉 Party plan karein',
+Object.assign(PT.ur,{winter:'Winter picnic',lwinter:'❄️ Winter look',swinter:'❄️ <b>Sardiyon ke treats aa gaye!</b> Thandi shaamon, family gatherings aur winter picnics ke liye brownies, cupcakes, biscuit boxes aur cakes.',xmas:'Christmas',ny:'New Year',look:'Tehwar look',lxmas:'🎄 Christmas look',lny:'🎆 New Year look',plan:'🎉 Party plan karein',
  sxmas:'🎄 <b>Christmas treats aa gaye!</b> Christmas table ke liye brownies, cupcakes, biscuit boxes aur cakes. 24 aur 25 December ke liye jaldi order karein.',
  sny:'🎆 <b>{y} ka istiqbal meetha karein!</b> New Year party ke liye boxes aur cakes. 31 December ke liye jaldi order karein.'});
-const LOOK={xmas:{c1:7,c2:2,deco:'rosettes'},ny:{c1:10,c2:8,deco:'sprinkles'}};
+const LOOK={xmas:{c1:7,c2:2,deco:'rosettes'},ny:{c1:10,c2:8,deco:'sprinkles'},winter:{c1:4,c2:2,deco:'flowers'}};
 if(SEA){
  document.documentElement.classList.add('sea-'+SEA);
- const o2={};o2[SEA]=SEA==='xmas'?'Sprinkle party cake':'Ombre ribbed rosette cake';Object.assign(o2,OCC);for(const k in OCC)delete OCC[k];Object.assign(OCC,o2);PS.o=SEA;
+ const o2={};o2[SEA]=SEA==='xmas'?'Sprinkle party cake':SEA==='ny'?'Ombre ribbed rosette cake':'Rose garden sheet cake';Object.assign(o2,OCC);for(const k in OCC)delete OCC[k];Object.assign(OCC,o2);PS.o=SEA;
  const fx=document.createElement('div');fx.className='sfx';fx.setAttribute('aria-hidden','true');
- for(let i=0;i<22;i++){const sp=document.createElement('i');sp.textContent=SEA==='xmas'?(i%3?'•':'❄'):(i%2?'✦':'•');sp.style.left=(i*4.6+((i*37)%5))+'%';sp.style.animationDelay=(-(i*0.83)%9)+'s';sp.style.animationDuration=(7+(i%5)*1.6)+'s';sp.style.fontSize=(8+(i*7)%12)+'px';fx.appendChild(sp)}
+ for(let i=0;i<(SEA==='winter'?14:22);i++){const sp=document.createElement('i');sp.textContent=SEA==='xmas'?(i%3?'•':'❄'):SEA==='winter'?(i%2?'❄':'•'):(i%2?'✦':'•');sp.style.left=(i*4.6+((i*37)%5))+'%';sp.style.animationDelay=(-(i*0.83)%9)+'s';sp.style.animationDuration=(7+(i%5)*1.6)+'s';sp.style.fontSize=(8+(i*7)%12)+'px';fx.appendChild(sp)}
  const intro=document.querySelector('.intro');if(intro)intro.appendChild(fx);
 }
 function renderSeason(){const el=document.getElementById('season');if(!el)return;if(!SEA){el.hidden=true;return}
