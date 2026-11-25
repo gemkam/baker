@@ -73,6 +73,11 @@ h2{font:800 30px/1.1 "Baloo 2",sans-serif;margin:34px 0 4px}
 .tile .tx{padding:10px 12px 12px;display:flex;flex-direction:column;gap:8px;flex:1}
 .tile h3{margin:0;font-size:15px;line-height:1.3}
 .tile .ask{margin-top:auto;min-height:40px;border-radius:12px;background:var(--pink);border:0;font:inherit;font-weight:800;font-size:14px;color:var(--ink);text-decoration:none;display:grid;place-items:center;text-align:center}
+.kgs{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.kg{min-height:36px;padding:0;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-weight:800;font-size:12px;cursor:pointer;white-space:nowrap}
+.kg[aria-pressed=true]{background:var(--plum);border-color:var(--plum);color:#fff}
+.flvl{font-size:13px;margin:0;color:var(--soft)}
+.flv{width:100%;margin-top:4px;min-height:40px;padding:6px 8px;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--ink);font:700 14px Nunito,sans-serif}
 .inside{display:flex;gap:14px;align-items:center;background:var(--pink);border-radius:22px;padding:12px;margin-top:14px}
 .inside img{width:120px;height:104px;object-fit:cover;border-radius:16px;flex:none}
 .ks{margin:40px 0 0;background:linear-gradient(90deg,var(--aqua) 50%,var(--pink) 50%);border-radius:24px;padding:22px 20px;text-align:center}
@@ -196,18 +201,18 @@ input,textarea{width:100%;font:16px Nunito,sans-serif;padding:12px;border-radius
   </section>
 
   <section id="cheesecakes">
-    <h2>Cheesecakes</h2><p class="h2s">Made to order · ask for size and price</p>
+    <h2>Cheesecakes</h2><p class="h2s">Made to order · pick the weight and ask price</p>
     <div class="grid" id="g-cheesecakes"></div>
   </section>
 
   <section id="cakes">
-    <h2>Celebration cakes</h2><p class="h2s">Rosettes, sprinkles and custom colours · price by size and design</p>
+    <h2>Celebration cakes</h2><p class="h2s">Rosettes, sprinkles and custom colours · pick the weight in kg</p>
     <div class="grid" id="g-cakes"></div>
     <div class="inside"><img src="images/inside.jpg" alt="Inside a cake: vanilla and chocolate layers"><div><b>Inside every cake</b><div class="h2s" style="margin:4px 0 0">Soft vanilla and chocolate sponge layers with fresh cream.</div></div></div>
   </section>
 
   <section id="theme">
-    <h2>Theme and 3D cakes</h2><p class="h2s">Hand-sculpted for birthdays · tell us your theme</p>
+    <h2>Theme and 3D cakes</h2><p class="h2s">Hand-sculpted for birthdays · pick the weight in kg</p>
     <div class="grid" id="g-theme"></div>
   </section>
 
@@ -233,24 +238,28 @@ input,textarea{width:100%;font:16px Nunito,sans-serif;padding:12px;border-radius
 {
 const WA='96879994021';
 const menu={
- brownies:[['Plain brownies',3,4,'m-plain'],['Fudge brownies',4,6,'brownies'],['Loaded brownies',7,9,'m-loaded']],
+ brownies:[['Plain brownies',3,4,'m-plain'],['Fudge brownies',4,6,'brownies'],['Loaded brownies',7,9,'m-loaded',['Nutella','Lotus Biscoff','Oreo','Kinder','Ferrero Rocher','Pistachio kunafa','Salted caramel','Smarties and M&Ms','Marshmallow smores','Mixed nuts']]],
  cupcakes:[['Vanilla or chocolate cupcakes',3,5,'m-vanchoc'],['Mocha cupcakes',4,6,'mocha'],['Marble cupcakes',4,8,'m-marble'],['Cookies n cream cupcakes',4,8,'m-oreo'],['Biscoff cupcakes',4,8,'m-biscoff']],
  cookies:[['Chocolate chip cookies',3,5,'https://unsplash.com/photos/8DWN4Gui9Yk/download?w=600'],['Double chocolate cookies',4,6,'https://unsplash.com/photos/4fl4XVhH8Y4/download?w=600'],['Chunky chocolate cookies',4,7,'https://unsplash.com/photos/W8blK2FRmBw/download?w=600']]
 };
 const gal={
- cheesecakes:[['cheese','Lotus Biscoff cheesecake'],['cheese-top','Biscoff cheesecake, top view']],
+ cheesecakes:[['cheese','Lotus Biscoff cheesecake']],
  cakes:[['sprinkle','Pink rosette sprinkle cake'],['ombre','Ombre ribbed rosette cake'],['rose-rect','Rose garden sheet cake'],['rose-square','Square rose cake'],['topper','Rosette birthday cake'],['sprinkle-table','Sprinkle party cake']],
  theme:[['race-car','Red race car cake'],['char-bow','Red car cake with polka dot bow'],['char-yellow','Yellow car cake with wafer fence']]
 };
 const cart={};
+const KG=['1','1.5','2','3'];
+const askHref=(t,w)=>`https://wa.me/${WA}?text=${encodeURIComponent('Hello Mariam, I would like the price for: '+t+' ('+w+' kg)')}`;
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 for(const k in menu){
- document.getElementById('m-'+k).innerHTML=menu[k].map(([n,a,b,img])=>`<div class="tile"><img src="${img.startsWith('http')?img:'images/'+img+'.jpg'}" alt="${esc(n)}" loading="lazy" onerror="this.style.visibility='hidden'"><div class="tx"><h3>${esc(n)}</h3>
+ document.getElementById('m-'+k).innerHTML=menu[k].map(([n,a,b,img,fl])=>`<div class="tile"><img src="${img.startsWith('http')?img:'images/'+img+'.jpg'}" alt="${esc(n)}" loading="lazy" onerror="this.style.visibility='hidden'"><div class="tx"><h3>${esc(n)}</h3>
+ ${fl?`<label class="flvl">Loaded with<select class="flv">${fl.map(f=>`<option>${esc(f)}</option>`).join('')}</select></label>`:''}
  <div class="opts">${[[6,a],[12,b]].map(([q,p])=>`<button class="opt" data-id="${esc(n)}|${q}" data-p="${p}"><span class="qty">${q} pcs</span><span class="p">${p} OMR</span><span class="badge"></span></button>`).join('')}</div></div></div>`).join('');
 }
 for(const k in gal){
  document.getElementById('g-'+k).innerHTML=gal[k].map(([f,t])=>`<div class="tile"><img src="images/${f}.jpg" alt="${esc(t)}" loading="lazy"><div class="tx"><h3>${esc(t)}</h3>
- <a class="ask" target="_blank" rel="noopener" href="https://wa.me/${WA}?text=${encodeURIComponent('Hello Mariam, I would like the price for: '+t)}">Ask price</a></div></div>`).join('');
+ <div class="kgs" role="group" aria-label="Cake weight">${KG.map((w,i)=>`<button class="kg" aria-pressed="${i==0}" data-kg="${w}">${w} kg</button>`).join('')}</div>
+ <a class="ask" target="_blank" rel="noopener" data-t="${esc(t)}" href="${askHref(t,KG[0])}">Ask price</a></div></div>`).join('');
 }
 const $=id=>document.getElementById(id);
 function render(){
@@ -260,14 +269,16 @@ function render(){
  $('cnt').textContent=n+(n==1?' box':' boxes')+' · View order';$('sum').textContent=t+' OMR';$('tot').textContent=t+' OMR';
  $('lines').innerHTML=ids.map(i=>{const [nm,q]=i.split('|');return `<div class="li"><span>${esc(nm)}<br><span class="qty">Box of ${q}</span></span>
  <span class="step"><button data-d="-1" data-i="${esc(i)}" aria-label="Less">−</button><b>${cart[i].q}</b><button data-d="1" data-i="${esc(i)}" aria-label="More">+</button></span><span class="p">${cart[i].q*cart[i].p} OMR</span></div>`}).join('')||'<p class="h2s">No items yet.</p>';
- document.querySelectorAll('.opt').forEach(b=>{const c=cart[b.dataset.id];b.classList.toggle('added',!!c);b.querySelector('.badge').textContent=c?c.q:''});
+ document.querySelectorAll('.opt').forEach(b=>{const [nm,q]=b.dataset.id.split('|');let c=0;for(const i in cart){const [n2,q2]=i.split('|');if(q2==q&&(n2==nm||n2.startsWith(nm+' (')))c+=cart[i].q}b.classList.toggle('added',c>0);b.querySelector('.badge').textContent=c||''});
  const msg=['Hello Mariam, I want to order from sculpted_slice:',...ids.map(i=>{const [nm,q]=i.split('|');return `- ${cart[i].q} x ${nm} (box of ${q}) = ${cart[i].q*cart[i].p} OMR`}),`Total: ${t} OMR`];
  if($('nm').value)msg.push('Name: '+$('nm').value);if($('dt').value)msg.push('Needed on: '+$('dt').value);if($('nt').value)msg.push('Notes: '+$('nt').value);
  $('send').href=`https://wa.me/${WA}?text=${encodeURIComponent(msg.join('\n'))}`;
 }
 document.addEventListener('click',e=>{
  const o=e.target.closest('.opt');
- if(o){const i=o.dataset.id;cart[i]=cart[i]||{q:0,p:+o.dataset.p};cart[i].q++;render();return}
+ if(o){let i=o.dataset.id;const f=o.closest('.tile').querySelector('.flv');if(f){const [nm,q]=i.split('|');i=nm+' ('+f.value+')|'+q}cart[i]=cart[i]||{q:0,p:+o.dataset.p};cart[i].q++;render();return}
+ const kg=e.target.closest('.kg');
+ if(kg){const tl=kg.closest('.tile');tl.querySelectorAll('.kg').forEach(b=>b.setAttribute('aria-pressed',b===kg));const a=tl.querySelector('.ask');a.href=askHref(a.dataset.t,kg.dataset.kg);return}
  const s=e.target.closest('.step button');
  if(s){const i=s.dataset.i;cart[i].q+= +s.dataset.d;if(cart[i].q<1)delete cart[i];render();return}
  const im=e.target.closest('.tile img');
