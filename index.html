@@ -134,6 +134,22 @@ main section>.h2s{text-align:center;max-width:34ch;margin:0 auto 16px;text-wrap:
 @media(prefers-color-scheme:dark){main section>h2,.custom h2{filter:none}}
 @media(prefers-reduced-motion:no-preference){main section>h2,.custom h2{background-size:200% 100%;animation:hshine 6s ease-in-out infinite alternate}
 @keyframes hshine{from{background-position:0% 50%}to{background-position:100% 50%}}}
+.cert{margin:2.6cqw 0 0;font:700 4cqw/1.2 Nunito,sans-serif;color:#fff;letter-spacing:.2cqw;text-shadow:0 .3cqw 1cqw rgba(0,0,0,.8)}
+.acts{display:block}
+.acts .wa{width:100%}
+.tile{position:relative}
+.acts .sh{position:absolute;top:8px;right:8px;width:40px;height:40px;min-height:0!important;padding:0!important;border-radius:50%!important;background:rgba(255,255,255,.92)!important;border:0!important;color:#3a1747!important;box-shadow:0 3px 10px rgba(0,0,0,.25);z-index:2}
+@media(max-width:599px){.grid>.tile:last-child:nth-child(odd) .acts .sh{right:auto;left:calc(42% - 48px)}}
+@media(min-width:600px){.grid>.tile:only-child .acts .sh{right:auto;left:calc(40% - 48px)}}
+.acts .sh span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.acts button{min-height:38px;border-radius:10px;font:800 13px Nunito,sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap;padding:0 4px}
+.acts svg{flex:none}
+.acts .wa{background:#1fa855;color:#fff;border:0}
+.acts .sh{background:var(--card);color:var(--ink);border:2px solid var(--line)}
+.tile.flash{outline:3px solid var(--plum);outline-offset:3px}
+.fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:8;width:58px;height:58px;border-radius:50%;background:#1fa855;color:#fff;display:grid;place-items:center;box-shadow:0 8px 20px rgba(0,0,0,.3)}
+.bar.on~.fab,body:has(.bar.on) .fab{bottom:calc(84px + env(safe-area-inset-bottom))}
+
 @media(max-width:359px){.kg b{font-size:10.5px}.kgs{gap:4px}.tile .tx{padding:10px 8px 12px}}
 @media(min-width:600px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.banner{height:260px}}
 @media(prefers-reduced-motion:no-preference){.opt:active{transform:scale(.95)}}
@@ -188,26 +204,13 @@ main section>.h2s{text-align:center;max-width:34ch;margin:0 auto 16px;text-wrap:
     <h2 class="ttl"><span>Sculpted</span><span>Slice</span></h2>
     <div class="byrow"><svg aria-hidden="true"><use href="#brownie"/></svg><span class="by">By Maryam Baker</span><svg aria-hidden="true"><use href="#brownie"/></svg></div>
     <div class="rule"></div>
+    <p class="cert">COTHM Certified Baker · Custom Cake Artist</p>
   </div>
-  <a class="down" href="#menu">See the menu ↓</a>
+  <a class="down" href="https://www.instagram.com/sculpted_slice/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@sculpted_slice</a>
 </div>
-<header class="top" id="menu">
-  <h1 class="logo">sculpted<i>_</i>slice</h1>
-  <div class="tag">Homemade cakes and bakes in Muscat</div>
-  <div class="baker">
-    <div>
-      <b>Mariam Rabail Rashid</b>
-      <span>COTHM Certified Baker · Custom cake artist</span>
-      <div class="links">
-        <a class="pill" href="https://wa.me/96879994021" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.1-.3.3-.1.6.1.3.6 1.1 1.4 1.8 1 .9 1.8 1.1 2.1 1.3.3.1.4.1.6-.1l.8-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.4.2.5.3.1.2.1.7-.1 1.5z"/></svg>WhatsApp</a>
-        <a class="pill alt" href="tel:+96879994021">Call 7999 4021</a>
-        <a class="pill alt" href="https://www.instagram.com/sculpted_slice/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@sculpted_slice</a>
-      </div>
-    </div>
-  </div>
-</header>
 
-<nav class="tabs"><div class="wrap">
+
+<nav class="tabs" id="menu"><div class="wrap">
   <a href="#brownies">Brownies</a><a href="#cupcakes">Cupcakes</a><a href="#cookies">Cookies</a><a href="#custom">Customised cakes</a><a href="#cheesecakes">Cheesecakes</a><a href="#cakes">Celebration cakes</a><a href="#theme">Theme cakes</a>
 </div></nav>
 
@@ -254,6 +257,7 @@ main section>.h2s{text-align:center;max-width:34ch;margin:0 auto 16px;text-wrap:
   <footer>Designed by <b>KS Tech LLC</b></footer>
 </main>
 
+<a class="fab" href="https://wa.me/96879994021" target="_blank" rel="noopener" aria-label="Chat with Mariam on WhatsApp"><svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.1-.3.3-.1.6.1.3.6 1.1 1.4 1.8 1 .9 1.8 1.1 2.1 1.3.3.1.4.1.6-.1l.8-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.4.2.5.3.1.2.1.7-.1 1.5z"/></svg></a>
 <div class="bar" id="bar"><div class="wrap"><button id="view"><span id="cnt">0 items</span><span id="sum">0 OMR</span></button></div></div>
 
 <div class="sheet" id="sheet" role="dialog" aria-label="Your order"><div class="panel">
@@ -284,19 +288,27 @@ const gal={
 };
 const DESC={"Plain brownies": "Classic fudgy squares with a crackly top. Simple and so good.", "Fudge brownies": "Extra rich and gooey, made with real chocolate for true chocolate lovers.", "Loaded brownies": "Our fudgy brownie piled high with your favourite topping. Pure indulgence.", "Vanilla or chocolate cupcakes": "Soft and fluffy, topped with a swirl of silky buttercream.", "Mocha cupcakes": "Chocolate sponge with a coffee kick and creamy mocha frosting.", "Marble cupcakes": "Vanilla and chocolate swirled together in every soft bite.", "Cookies n cream cupcakes": "Loaded with crushed Oreo and a cookies n cream frosting.", "Biscoff cupcakes": "Caramel Lotus Biscoff cream with a crunchy cookie on top.", "Chocolate chip cookies": "Golden edges, soft chewy centre, packed with chocolate chips.", "Double chocolate cookies": "Dark cocoa dough with melting chocolate chunks inside.", "Chunky chocolate cookies": "Thick bakery-style cookies with big gooey chocolate pools.", "Lotus Biscoff cheesecake": "Creamy baked cheesecake on a Biscoff crumb base, topped with Lotus spread and cookies.", "Pink rosette sprinkle cake": "Pretty pink buttercream rosettes with a shower of rainbow sprinkles.", "Ombre ribbed rosette cake": "Soft pink-to-white ombre with elegant piped rosettes. A real showstopper.", "Rose garden sheet cake": "A full garden of hand-piped roses, perfect for big family celebrations.", "Square rose cake": "Neat square cake covered in blush roses, lovely for birthdays and engagements.", "Rosette birthday cake": "Classic rosette cake with a birthday topper, ready for the candles.", "Sprinkle party cake": "Fun and colourful with sprinkles, made to light up any party table.", "Red race car cake": "A hand-sculpted race car for little speed lovers. The star of the party.", "Red car cake with polka dot bow": "A cute red car with a polka dot bow, sweet and playful for girls.", "Yellow car cake with wafer fence": "Bright yellow car cake with a wafer fence, full of fun details."};
 const cart={};
+const slug=t=>t.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+const SITE='https://baker-mocha.vercel.app/';
+function itemText(tile){
+ const n=tile.dataset.n;const f=tile.querySelector('.flv');const kg=tile.querySelector('.kg[aria-pressed=true]');
+ let t=n+(f?' ('+f.value+')':'');
+ if(kg)t+=' · '+kg.dataset.kg+' kg ('+LB[kg.dataset.kg]+' lb) · '+kg.dataset.p+' OMR';
+ else if(tile.dataset.pr)t+=' · '+tile.dataset.pr;
+ return t}
 const KG=['1','1.5','2','3'];
 const LB={'1':'2.2','1.5':'3.3','2':'4.4','3':'6.6'};
 const KGP={cheesecakes:[11,16,21,30],cakes:[9,13,17,25],theme:[14,20,26,38]};
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 for(const k in menu){
- document.getElementById('m-'+k).innerHTML=menu[k].map(([n,a,b,img,fl])=>`<div class="tile"><img src="${img.startsWith('http')?img:'images/'+img+'.jpg'}" alt="${esc(n)}" loading="lazy" onerror="this.style.visibility='hidden'"><div class="tx"><h3>${esc(n)}</h3>${DESC[n]?`<p class="ds">${esc(DESC[n])}</p>`:''}
+ document.getElementById('m-'+k).innerHTML=menu[k].map(([n,a,b,img,fl])=>`<div class="tile" id="p-${slug(n)}" data-n="${esc(n)}" data-pr="6 pcs ${a} OMR, 12 pcs ${b} OMR"><img src="${img.startsWith('http')?img:'images/'+img+'.jpg'}" alt="${esc(n)}" loading="lazy" onerror="this.style.visibility='hidden'"><div class="tx"><h3>${esc(n)}</h3>${DESC[n]?`<p class="ds">${esc(DESC[n])}</p>`:''}
  ${fl?`<label class="flvl">Loaded with<select class="flv">${fl.map(([f,x])=>`<option value="${esc(f)}" data-x="${x}">${esc(f)}${x?' (+'+x+' OMR per 6)':''}</option>`).join('')}</select></label>`:''}
- <div class="opts">${[[6,a],[12,b]].map(([q,p])=>`<button class="opt" data-id="${esc(n)}|${q}" data-p="${p}"><span class="qty">${q} pcs</span><span class="p">${p} OMR</span><span class="badge"></span></button>`).join('')}</div></div></div>`).join('');
+ <div class="opts">${[[6,a],[12,b]].map(([q,p])=>`<button class="opt" data-id="${esc(n)}|${q}" data-p="${p}"><span class="qty">${q} pcs</span><span class="p">${p} OMR</span><span class="badge"></span></button>`).join('')}</div><div class="acts"><button class="wa" data-n="${esc(n)}"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.1-.3.3-.1.6.1.3.6 1.1 1.4 1.8 1 .9 1.8 1.1 2.1 1.3.3.1.4.1.6-.1l.8-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.4.2.5.3.1.2.1.7-.1 1.5z"/></svg>WhatsApp</button><button class="sh" data-n="${esc(n)}" aria-label="Share"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg><span>Share</span></button></div></div></div>`).join('');
 }
 for(const k in gal){
- document.getElementById('g-'+k).innerHTML=gal[k].map(([f,t])=>`<div class="tile"><img src="images/${f}.jpg" alt="${esc(t)}" loading="lazy"><div class="tx"><h3>${esc(t)}</h3>${DESC[t]?`<p class="ds">${esc(DESC[t])}</p>`:''}
+ document.getElementById('g-'+k).innerHTML=gal[k].map(([f,t])=>`<div class="tile" id="p-${slug(t)}" data-n="${esc(t)}"><img src="images/${f}.jpg" alt="${esc(t)}" loading="lazy"><div class="tx"><h3>${esc(t)}</h3>${DESC[t]?`<p class="ds">${esc(DESC[t])}</p>`:''}
  <div class="kgs" role="group" aria-label="Cake weight">${KG.map((w,i)=>`<button class="kg" aria-pressed="${i==0}" data-kg="${w}" data-p="${KGP[k][i]}"><span>${w} kg</span><small>${LB[w]} lb</small><b>${KGP[k][i]} OMR</b></button>`).join('')}</div>
- <button class="ask addc" data-t="${esc(t)}">Add ${esc(KG[0])} kg · ${KGP[k][0]} OMR</button></div></div>`).join('');
+ <button class="ask addc" data-t="${esc(t)}">Add ${esc(KG[0])} kg · ${KGP[k][0]} OMR</button><div class="acts"><button class="wa" data-n="${esc(t)}"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.1-.3.3-.1.6.1.3.6 1.1 1.4 1.8 1 .9 1.8 1.1 2.1 1.3.3.1.4.1.6-.1l.8-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.4.2.5.3.1.2.1.7-.1 1.5z"/></svg>WhatsApp</button><button class="sh" data-n="${esc(t)}" aria-label="Share"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg><span>Share</span></button></div></div></div>`).join('');
 }
 const $=id=>document.getElementById(id);
 function render(){
@@ -314,6 +326,12 @@ function render(){
 document.addEventListener('click',e=>{
  const o=e.target.closest('.opt');
  if(o){let i=o.dataset.id;const f=o.closest('.tile').querySelector('.flv');let p=+o.dataset.p;if(f){const [nm,q]=i.split('|');i=nm+' ('+f.value+')|'+q;p+= +f.selectedOptions[0].dataset.x*(q==12?2:1)}cart[i]=cart[i]||{q:0,p};cart[i].q++;render();return}
+ const wa=e.target.closest('.acts .wa');
+ if(wa){const tl=wa.closest('.tile');window.open(`https://wa.me/${WA}?text=${encodeURIComponent('Hello Mariam, I am interested in: '+itemText(tl)+'\n'+SITE+'#'+tl.id)}`,'_blank','noopener');return}
+ const sh=e.target.closest('.acts .sh');
+ if(sh){const tl=sh.closest('.tile');const url=SITE+'#'+tl.id;const text='Look at this from sculpted_slice: '+itemText(tl);
+  if(navigator.share){navigator.share({title:tl.dataset.n,text,url}).catch(()=>{})}
+  else{window.open('https://wa.me/?text='+encodeURIComponent(text+'\n'+url),'_blank','noopener')}return}
  const kg=e.target.closest('.kg');
  if(kg){const tl=kg.closest('.tile');tl.querySelectorAll('.kg').forEach(b=>b.setAttribute('aria-pressed',b===kg));tl.querySelector('.addc').textContent=`Add ${kg.dataset.kg} kg · ${kg.dataset.p} OMR`;return}
  const ad=e.target.closest('.addc');
@@ -331,6 +349,8 @@ $('sheet').onclick=e=>{if(e.target.id==='sheet')$('sheet').classList.remove('on'
 const d=new Date();d.setDate(d.getDate()+2);$('dt').min=d.toISOString().slice(0,10);
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('sheet').classList.remove('on');$('zoom').classList.remove('on')}});
 render();
+const hl=()=>{const el=location.hash.startsWith('#p-')&&document.querySelector(location.hash);if(el){el.scrollIntoView({block:'center'});el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),2500)}};
+addEventListener('hashchange',hl);setTimeout(hl,300);
 }
 </script>
 </body>
