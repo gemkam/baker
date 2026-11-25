@@ -849,7 +849,7 @@ function renderDZ(full){
   <div class="prow"><span class="plab">${P('flav')}</span><div class="chips">${['vanilla','chocolate','marble','biscoff'].map(v=>chip('flav',v,DS.flav==v,P(v))).join('')}</div></div>
   <div class="prow"><span class="plab">${P('c1')}</span><div class="sws">${COL.map((c,i)=>`<button type="button" class="sw" data-g="c1" data-v="${i}" aria-pressed="${DS.c1==i}" aria-label="${c[0]}" title="${c[0]}" style="background:${c[1]}"></button>`).join('')}</div></div>
   <div class="prow"><span class="plab">${P('c2')}</span><div class="sws">${COL.map((c,i)=>`<button type="button" class="sw" data-g="c2" data-v="${i}" aria-pressed="${DS.c2==i}" aria-label="${c[0]}" title="${c[0]}" style="background:${c[1]}"></button>`).join('')}</div></div>
-  ${SEA?`<div class="prow"><span class="plab">${P('look')}</span><div class="chips"><button type="button" class="chip" data-g="look" data-v="${SEA}" aria-pressed="false">${P('l'+SEA)}</button></div></div>`:''}
+  ${SEA?`<div class="prow"><span class="plab">${P('look')}</span><div class="chips">${[SEA,...['xmas','ny','winter'].filter(x=>x!==SEA)].map(x=>`<button type="button" class="chip" data-g="look" data-v="${x}" aria-pressed="false">${P('l'+x)}</button>`).join('')}</div></div>`:''}
   <div class="prow"><span class="plab">${P('deco')}</span><div class="chips">${['rosettes','sprinkles','drip','flowers','smooth'].map(v=>chip('deco',v,DS.deco==v,P(v))).join('')}</div></div>
   <div class="prow"><label class="plab" for="dzm">${P('msg')}</label><input id="dzm" maxlength="28" placeholder="${P('msgph')}" value="${esc(DS.msg)}"></div>
   <div class="ptot"><span>${P('price')}</span><span id="dzpr"></span></div>
@@ -881,7 +881,7 @@ Object.assign(PT.ur,{winter:'Winter picnic',lwinter:'❄️ Winter look',swinter
 const LOOK={xmas:{c1:7,c2:2,deco:'rosettes'},ny:{c1:10,c2:8,deco:'sprinkles'},winter:{c1:4,c2:2,deco:'flowers'}};
 if(SEA){
  document.documentElement.classList.add('sea-'+SEA);
- const o2={};o2[SEA]=SEA==='xmas'?'Sprinkle party cake':SEA==='ny'?'Ombre ribbed rosette cake':'Rose garden sheet cake';Object.assign(o2,OCC);for(const k in OCC)delete OCC[k];Object.assign(OCC,o2);PS.o=SEA;
+ const SC={xmas:'Sprinkle party cake',ny:'Ombre ribbed rosette cake',winter:'Rose garden sheet cake'};const o2={};[SEA,...['xmas','ny','winter'].filter(x=>x!==SEA)].forEach(x=>o2[x]=SC[x]);Object.assign(o2,OCC);for(const k in OCC)delete OCC[k];Object.assign(OCC,o2);PS.o=SEA;
  const fx=document.createElement('div');fx.className='sfx';fx.setAttribute('aria-hidden','true');
  for(let i=0;i<(SEA==='winter'?14:22);i++){const sp=document.createElement('i');sp.textContent=SEA==='xmas'?(i%3?'•':'❄'):SEA==='winter'?(i%2?'❄':'•'):(i%2?'✦':'•');sp.style.left=(i*4.6+((i*37)%5))+'%';sp.style.animationDelay=(-(i*0.83)%9)+'s';sp.style.animationDuration=(7+(i%5)*1.6)+'s';sp.style.fontSize=(8+(i*7)%12)+'px';fx.appendChild(sp)}
  const intro=document.querySelector('.intro');if(intro)intro.appendChild(fx);
