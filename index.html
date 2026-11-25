@@ -56,7 +56,8 @@ nav.tabs .wrap{display:flex;gap:8px;overflow-x:auto;padding:10px 16px;scrollbar-
 nav.tabs .wrap::-webkit-scrollbar{display:none}
 nav.tabs a{flex:none;padding:8px 14px;border-radius:99px;background:var(--pink);text-decoration:none;font-weight:800;font-size:14px}
 nav.tabs a:nth-child(odd){background:var(--aqua)}
-.note{background:var(--aqua);border-radius:16px;padding:10px 14px;font-weight:600;font-size:15px;margin:18px 0 0;text-align:center}
+.note{background:var(--aqua);border-radius:16px;padding:12px 14px;font-weight:600;font-size:15px;margin:18px 0 0}
+.note p{margin:0 0 8px;text-align:justify;text-align-last:left;line-height:1.5}.note p:last-child{margin:0}
 section{scroll-margin-top:64px}
 h2{font:800 30px/1.1 "Baloo 2",sans-serif;margin:34px 0 4px}
 .h2s{color:var(--soft);margin:0 0 14px;font-size:15px}
@@ -115,7 +116,7 @@ footer b{color:var(--ink)}
 .adv{display:flex;justify-content:space-between;align-items:center;gap:10px;font:800 16px "Baloo 2",sans-serif;padding:10px 14px;border-radius:14px;background:var(--pink);color:var(--plum2);margin-bottom:6px}
 .adv.bal{background:var(--aqua);color:var(--ink)}
 .adv-s{margin:4px 0 6px;font-size:13px}
-.advn{display:inline-block;margin-top:8px;padding:6px 10px;border-radius:12px;background:var(--pink);font-weight:600}
+.note .advn{display:block;padding:10px 12px;border-radius:12px;background:var(--pink);font-weight:600}
 .advn a{color:var(--plum2);font-weight:800}
 .policy ol{margin:8px 0 0;padding:16px 16px 16px 34px;background:var(--card);border:2px solid var(--line);border-radius:20px}
 .policy li{margin:0 0 10px;line-height:1.5}.policy li:last-child{margin:0}
@@ -279,7 +280,11 @@ body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;ba
 </div></nav>
 
 <main class="wrap">
-  <p class="note">Brownies, cupcakes and cookies: please order <b>2 days</b> before.<br>All cakes: please order at least <b>3 days</b> before.<br><span style="font-weight:600">Tap a box size or cake weight to add it, then send your order on WhatsApp.</span><br><span class="advn">💳 Brownies, cupcakes, cookies and biscuits: <b>full payment in advance</b>. Cakes: <b>50% advance</b> to book, balance before handover. <a href="#policy">Read our order policy</a></span></p>
+  <div class="note">
+    <p>⏰ Brownies, cupcakes, cookies and biscuits: please order <b>2 days</b> before. All cakes: please order at least <b>3 days</b> before.</p>
+    <p>🛒 Tap a box size or cake weight to add it, then send your order on WhatsApp.</p>
+    <p class="advn">💳 Brownies, cupcakes, cookies and biscuits: <b>full payment in advance</b>. Cakes: <b>50% advance</b> to book, balance before handover. <a href="#policy">Read our order policy</a></p>
+  </div>
 
   <section id="brownies">
     <h2>Brownies</h2><p class="h2s">Boxes of 6 or 12 · order 2 days before</p>
