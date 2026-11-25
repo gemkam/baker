@@ -52,7 +52,8 @@ header.top{background:linear-gradient(90deg,var(--aqua) 50%,var(--pink) 50%);pad
 .pill.alt{background:transparent;color:var(--ink);border:2px solid var(--line)}
 .pill svg{width:17px;height:17px}
 nav.tabs{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
-nav.tabs .wrap{display:flex;gap:8px;overflow-x:auto;padding:10px 16px;scrollbar-width:none}
+nav.tabs .wrap{display:flex;gap:8px;overflow-x:auto;padding:10px 16px;scrollbar-width:none;scroll-behavior:auto}
+nav.tabs .wrap::-webkit-scrollbar{display:none}
 nav.tabs a{flex:none;padding:8px 14px;border-radius:99px;background:var(--pink);text-decoration:none;font-weight:800;font-size:14px}
 nav.tabs a:nth-child(odd){background:var(--aqua)}
 .note{background:var(--aqua);border-radius:16px;padding:10px 14px;font-weight:600;font-size:15px;margin:18px 0 0;text-align:center}
@@ -251,7 +252,7 @@ html{background:var(--bg)}
 
 
 <nav class="tabs" id="menu"><div class="wrap">
-  <a href="#brownies">Brownies</a><a href="#cupcakes">Cupcakes</a><a href="#cookies">Cookies</a><a href="#custom">Customised cakes</a><a href="#cheesecakes">Cheesecakes</a><a href="#cakes">Celebration cakes</a><a href="#theme">Theme cakes</a>
+  <a href="#brownies">Brownies</a><a href="#cupcakes">Cupcakes</a><a href="#cookies">Cookies</a><a href="#biscuits">Assorted biscuits</a><a href="#custom">Customised cakes</a><a href="#cheesecakes">Cheesecakes</a><a href="#cakes">Celebration cakes</a><a href="#theme">Theme cakes</a>
 </div></nav>
 
 <main class="wrap">
@@ -270,6 +271,11 @@ html{background:var(--bg)}
   <section id="cookies">
     <h2>Cookies</h2><p class="h2s">Boxes of 6 or 12 · order 2 days before</p>
     <div class="grid" id="m-cookies"></div>
+  </section>
+
+  <section id="biscuits">
+    <h2>Assorted Biscuits</h2><p class="h2s">Boxes of 12 or 24 · lovely for guests, Eid and gifting · order 2 days before</p>
+    <div class="grid" id="m-biscuits"></div>
   </section>
 
   <div class="custom" id="custom">
@@ -319,14 +325,38 @@ const WA='96879994021';
 const menu={
  brownies:[['Plain brownies',3,5,'m-plain'],['Fudge brownies',4,6,'brownies'],['Loaded brownies',7,12,'m-loaded',[['Nutella',0],['Lotus Biscoff',0],['Oreo',0],['Salted caramel',0],['Smarties and M&Ms',0],['Marshmallow smores',0],['Kinder',1],['Ferrero Rocher',1],['Pistachio kunafa',1],['Mixed nuts',1]]]],
  cupcakes:[['Vanilla or chocolate cupcakes',3,5,'m-vanchoc'],['Mocha cupcakes',4,6,'mocha'],['Marble cupcakes',4,7,'m-marble'],['Cookies n cream cupcakes',4,7,'m-oreo'],['Biscoff cupcakes',4,7,'m-biscoff']],
- cookies:[['Chocolate chip cookies',3,5,'https://unsplash.com/photos/8DWN4Gui9Yk/download?w=600'],['Double chocolate cookies',4,6,'https://unsplash.com/photos/4fl4XVhH8Y4/download?w=600'],['Chunky chocolate cookies',4,7,'https://unsplash.com/photos/W8blK2FRmBw/download?w=600']]
+ cookies:[['Chocolate chip cookies',3,5,'https://unsplash.com/photos/8DWN4Gui9Yk/download?w=600'],['Double chocolate cookies',4,6,'https://unsplash.com/photos/4fl4XVhH8Y4/download?w=600'],['Chunky chocolate cookies',4,7,'https://unsplash.com/photos/W8blK2FRmBw/download?w=600']],
+ biscuits:[['Assorted biscuit box',3,5.5,'b:mix'],['Butter biscuits',2,3.5,'b:butter'],['Jam drop biscuits',2.5,4,'b:jam'],['Chocolate dipped biscuits',3,5,'b:dip'],['Nankhatai',2,3.5,'b:nan'],['Zeera biscuits',2,3.5,'b:zeera'],['Date maamoul',3,5.5,'b:maamoul'],['Ghraibeh',2.5,4.5,'b:ghraibeh'],['Pistachio biscuits',3,5,'b:pista'],['Almond biscuits',3,5,'b:almond'],['Coconut macaroons',2.5,4.5,'b:coco'],['Melting moments',2.5,4.5,'b:melt'],['Cheese biscuits',2.5,4.5,'b:cheese']]
 };
+const QTY={biscuits:[12,24]};
+function bisc(v){
+ const B={butter:['#f1c27d','#c98b3e'],jam:['#f1c27d','#c98b3e'],dip:['#f1c27d','#c98b3e'],nan:['#f6dca8','#d2a35b'],zeera:['#e9b86f','#b07a32'],maamoul:['#f3d29a','#c79a52'],ghraibeh:['#fbeed2','#e0c48f'],pista:['#f1c88a','#c08f45'],almond:['#eec07e','#b98236'],coco:['#fff4dc','#e8cf9c'],melt:['#f8e2b4','#d8b06a'],cheese:['#f7c04a','#c98b1e']};
+ const one=(x,y,r,k)=>{const [f,e]=B[k];let t=`<circle cx="${x}" cy="${y}" r="${r}" fill="${f}" stroke="${e}" stroke-width="${r*.09}"/>`;
+  if(k=='butter')for(let i=0;i<8;i++){const a=i*Math.PI/4;t+=`<circle cx="${x+Math.cos(a)*r*.62}" cy="${y+Math.sin(a)*r*.62}" r="${r*.07}" fill="${e}"/>`}
+  if(k=='jam')t+=`<circle cx="${x}" cy="${y}" r="${r*.38}" fill="#c8102e"/><circle cx="${x-r*.12}" cy="${y-r*.12}" r="${r*.1}" fill="#ff6b7d"/>`;
+  if(k=='dip')t+=`<path d="M${x-r} ${y} A${r} ${r} 0 0 0 ${x+r} ${y}Z" fill="#4a2414"/><path d="M${x-r*.6} ${y-r*.3}h${r*1.2}" stroke="#4a2414" stroke-width="${r*.08}" stroke-linecap="round"/>`;
+  if(k=='nan')t+=`<path d="M${x-r*.4} ${y}h${r*.8}M${x} ${y-r*.4}v${r*.8}" stroke="${e}" stroke-width="${r*.1}" stroke-linecap="round"/><circle cx="${x}" cy="${y}" r="${r*.12}" fill="#7bb661"/>`;
+  if(k=='zeera')for(let i=0;i<9;i++)t+=`<ellipse cx="${x+Math.cos(i*2.4)*r*.55*((i%3+1)/3)}" cy="${y+Math.sin(i*2.4)*r*.55*((i%3+1)/3)}" rx="${r*.09}" ry="${r*.035}" fill="#5b3a1a" transform="rotate(${i*40} ${x} ${y})"/>`;
+  if(k=='maamoul')for(let i=0;i<12;i++){const a=i*Math.PI/6;t+=`<path d="M${x+Math.cos(a)*r*.25} ${y+Math.sin(a)*r*.25}L${x+Math.cos(a)*r*.82} ${y+Math.sin(a)*r*.82}" stroke="${e}" stroke-width="${r*.07}" stroke-linecap="round"/>`}
+  if(k=='ghraibeh')t+=`<path d="M${x} ${y-r*.3}l${r*.26} ${r*.45}h${-r*.52}z" fill="#e9b04a"/>`;
+  if(k=='pista')for(let i=0;i<7;i++)t+=`<rect x="${x+Math.cos(i*1.9)*r*.5-r*.08}" y="${y+Math.sin(i*1.9)*r*.5-r*.05}" width="${r*.16}" height="${r*.1}" rx="${r*.03}" fill="#7bb661"/>`;
+  if(k=='almond')t+=`<ellipse cx="${x}" cy="${y}" rx="${r*.18}" ry="${r*.36}" fill="#c98b4a" stroke="#8a5420" stroke-width="${r*.04}"/>`;
+  if(k=='coco')for(let i=0;i<14;i++)t+=`<path d="M${x+Math.cos(i*2.1)*r*.7} ${y+Math.sin(i*2.1)*r*.7}l${r*.12} ${r*.05}" stroke="#d9c08a" stroke-width="${r*.05}" stroke-linecap="round"/>`;
+  if(k=='melt')t+=`<path d="M${x-r*.9} ${y}h${r*1.8}" stroke="#fff" stroke-width="${r*.2}" stroke-linecap="round"/>`;
+  if(k=='cheese')t+=`<circle cx="${x-r*.3}" cy="${y-r*.2}" r="${r*.1}" fill="#e09e1a"/><circle cx="${x+r*.3}" cy="${y+r*.1}" r="${r*.12}" fill="#e09e1a"/><circle cx="${x}" cy="${y+r*.4}" r="${r*.08}" fill="#e09e1a"/>`;
+  return t};
+ const bg=`<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f9d6e6"/><stop offset="1" stop-color="#c6eff3"/></linearGradient></defs><rect width="200" height="200" fill="url(#g)"/><ellipse cx="100" cy="168" rx="78" ry="12" fill="#3a1747" opacity=".12"/>`;
+ let body;
+ if(v=='mix'){const ks=['jam','dip','pista','maamoul','butter','almond','coco'];const pos=[[100,100,30],[52,70,24],[148,70,24],[44,128,24],[156,128,24],[78,158,20],[122,158,20]];body=pos.map((q,i)=>one(q[0],q[1],q[2],ks[i])).join('')}
+ else body=one(74,112,40,v)+one(132,82,40,v);
+ return 'data:image/svg+xml,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">${bg}${body}</svg>`)}
+const imgSrc=i=>i.startsWith('b:')?bisc(i.slice(2)):i.startsWith('http')?i:'images/'+i+'.jpg';
 const gal={
  cheesecakes:[['cheese','Lotus Biscoff cheesecake']],
  cakes:[['sprinkle','Pink rosette sprinkle cake'],['ombre','Ombre ribbed rosette cake'],['rose-rect','Rose garden sheet cake'],['rose-square','Square rose cake'],['topper','Rosette birthday cake'],['sprinkle-table','Sprinkle party cake']],
  theme:[['race-car','Red race car cake'],['char-bow','Red car cake with polka dot bow'],['char-yellow','Yellow car cake with wafer fence']]
 };
-const DESC={"Plain brownies": "Classic fudgy squares with a crackly top. Simple and so good.", "Fudge brownies": "Extra rich and gooey, made with real chocolate for true chocolate lovers.", "Loaded brownies": "Our fudgy brownie piled high with your favourite topping. Pure indulgence.", "Vanilla or chocolate cupcakes": "Soft and fluffy, topped with a swirl of silky buttercream.", "Mocha cupcakes": "Chocolate sponge with a coffee kick and creamy mocha frosting.", "Marble cupcakes": "Vanilla and chocolate swirled together in every soft bite.", "Cookies n cream cupcakes": "Loaded with crushed Oreo and a cookies n cream frosting.", "Biscoff cupcakes": "Caramel Lotus Biscoff cream with a crunchy cookie on top.", "Chocolate chip cookies": "Golden edges, soft chewy centre, packed with chocolate chips.", "Double chocolate cookies": "Dark cocoa dough with melting chocolate chunks inside.", "Chunky chocolate cookies": "Thick bakery-style cookies with big gooey chocolate pools.", "Lotus Biscoff cheesecake": "Creamy baked cheesecake on a Biscoff crumb base, topped with Lotus spread and cookies.", "Pink rosette sprinkle cake": "Pretty pink buttercream rosettes with a shower of rainbow sprinkles.", "Ombre ribbed rosette cake": "Soft pink-to-white ombre with elegant piped rosettes. A real showstopper.", "Rose garden sheet cake": "A full garden of hand-piped roses, perfect for big family celebrations.", "Square rose cake": "Neat square cake covered in blush roses, lovely for birthdays and engagements.", "Rosette birthday cake": "Classic rosette cake with a birthday topper, ready for the candles.", "Sprinkle party cake": "Fun and colourful with sprinkles, made to light up any party table.", "Red race car cake": "A hand-sculpted race car for little speed lovers. The star of the party.", "Red car cake with polka dot bow": "A cute red car with a polka dot bow, sweet and playful for girls.", "Yellow car cake with wafer fence": "Bright yellow car cake with a wafer fence, full of fun details."};
+const DESC={"Plain brownies": "Classic fudgy squares with a crackly top. Simple and so good.", "Fudge brownies": "Extra rich and gooey, made with real chocolate for true chocolate lovers.", "Loaded brownies": "Our fudgy brownie piled high with your favourite topping. Pure indulgence.", "Vanilla or chocolate cupcakes": "Soft and fluffy, topped with a swirl of silky buttercream.", "Mocha cupcakes": "Chocolate sponge with a coffee kick and creamy mocha frosting.", "Marble cupcakes": "Vanilla and chocolate swirled together in every soft bite.", "Cookies n cream cupcakes": "Loaded with crushed Oreo and a cookies n cream frosting.", "Biscoff cupcakes": "Caramel Lotus Biscoff cream with a crunchy cookie on top.", "Chocolate chip cookies": "Golden edges, soft chewy centre, packed with chocolate chips.", "Double chocolate cookies": "Dark cocoa dough with melting chocolate chunks inside.", "Chunky chocolate cookies": "Thick bakery-style cookies with big gooey chocolate pools.", "Assorted biscuit box": "A mix of our favourite biscuits in one box: jam drops, chocolate dipped, pistachio, maamoul, butter, almond and coconut.", "Butter biscuits": "Crisp, golden and buttery. The classic tea-time biscuit.", "Jam drop biscuits": "Soft butter biscuits with a shiny strawberry jam centre.", "Chocolate dipped biscuits": "Butter biscuits half dipped in rich chocolate.", "Nankhatai": "Melt-in-the-mouth desi biscuits with cardamom and a pistachio on top.", "Zeera biscuits": "Light, flaky cumin biscuits, slightly salty. Perfect with chai.", "Date maamoul": "Traditional Arabic semolina biscuits filled with soft dates.", "Ghraibeh": "Soft Arabic butter biscuits that melt on your tongue.", "Pistachio biscuits": "Buttery biscuits loaded with crushed pistachio.", "Almond biscuits": "Crunchy biscuits made with ground almonds and a whole almond on top.", "Coconut macaroons": "Chewy golden coconut bites, crisp outside and soft inside.", "Melting moments": "Two soft butter biscuits sandwiched with vanilla cream.", "Cheese biscuits": "Savoury cheddar biscuits, crispy and cheesy. Great for guests.", "Lotus Biscoff cheesecake": "Creamy baked cheesecake on a Biscoff crumb base, topped with Lotus spread and cookies.", "Pink rosette sprinkle cake": "Pretty pink buttercream rosettes with a shower of rainbow sprinkles.", "Ombre ribbed rosette cake": "Soft pink-to-white ombre with elegant piped rosettes. A real showstopper.", "Rose garden sheet cake": "A full garden of hand-piped roses, perfect for big family celebrations.", "Square rose cake": "Neat square cake covered in blush roses, lovely for birthdays and engagements.", "Rosette birthday cake": "Classic rosette cake with a birthday topper, ready for the candles.", "Sprinkle party cake": "Fun and colourful with sprinkles, made to light up any party table.", "Red race car cake": "A hand-sculpted race car for little speed lovers. The star of the party.", "Red car cake with polka dot bow": "A cute red car with a polka dot bow, sweet and playful for girls.", "Yellow car cake with wafer fence": "Bright yellow car cake with a wafer fence, full of fun details."};
 window.FALLBACK='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f9d6e6"/><stop offset="1" stop-color="#c6eff3"/></linearGradient></defs><rect width="200" height="200" fill="url(#g)"/><circle cx="100" cy="100" r="58" fill="#e7b073" stroke="#a8692e" stroke-width="5"/><g fill="#5a2e1a"><circle cx="78" cy="80" r="8"/><circle cx="118" cy="74" r="7"/><circle cx="126" cy="112" r="8"/><circle cx="88" cy="122" r="7"/><circle cx="104" cy="98" r="5"/></g></svg>');
 const cart={};
 const slug=t=>t.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
@@ -342,9 +372,9 @@ const LB={'1':'2.2','1.5':'3.3','2':'4.4','3':'6.6'};
 const KGP={cheesecakes:[11,16,21,30],cakes:[9,13,17,25],theme:[14,20,26,38]};
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 for(const k in menu){
- document.getElementById('m-'+k).innerHTML=menu[k].map(([n,a,b,img,fl])=>`<div class="tile" id="p-${slug(n)}" data-n="${esc(n)}" data-pr="6 pcs ${a} OMR, 12 pcs ${b} OMR"><img src="${img.startsWith('http')?img:'images/'+img+'.jpg'}" alt="${esc(n)}" loading="lazy" onerror="this.onerror=null;this.src=FALLBACK"><div class="tx"><h3>${esc(n)}</h3>${DESC[n]?`<p class="ds">${esc(DESC[n])}</p>`:''}
+ document.getElementById('m-'+k).innerHTML=menu[k].map(([n,a,b,img,fl])=>`<div class="tile" id="p-${slug(n)}" data-n="${esc(n)}" data-pr="${(QTY[k]||[6,12])[0]} pcs ${a} OMR, ${(QTY[k]||[6,12])[1]} pcs ${b} OMR"><img src="${imgSrc(img)}" alt="${esc(n)}" loading="lazy" onerror="this.onerror=null;this.src=FALLBACK"><div class="tx"><h3>${esc(n)}</h3>${DESC[n]?`<p class="ds">${esc(DESC[n])}</p>`:''}
  ${fl?`<label class="flvl">Loaded with<select class="flv">${fl.map(([f,x])=>`<option value="${esc(f)}" data-x="${x}">${esc(f)}${x?' (+'+x+' OMR per 6)':''}</option>`).join('')}</select></label>`:''}
- <div class="opts">${[[6,a],[12,b]].map(([q,p])=>`<button class="opt" data-id="${esc(n)}|${q}" data-p="${p}"><span class="qty">${q} pcs</span><span class="p">${p} OMR</span><span class="badge"></span></button>`).join('')}</div><div class="acts"><button class="wa" data-n="${esc(n)}"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.1-.3.3-.1.6.1.3.6 1.1 1.4 1.8 1 .9 1.8 1.1 2.1 1.3.3.1.4.1.6-.1l.8-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.4.2.5.3.1.2.1.7-.1 1.5z"/></svg>WhatsApp</button><button class="sh" data-n="${esc(n)}" aria-label="Share"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg><span>Share</span></button></div></div></div>`).join('');
+ <div class="opts">${[[(QTY[k]||[6,12])[0],a],[(QTY[k]||[6,12])[1],b]].map(([q,p])=>`<button class="opt" data-id="${esc(n)}|${q}" data-p="${p}"><span class="qty">${q} pcs</span><span class="p">${p} OMR</span><span class="badge"></span></button>`).join('')}</div><div class="acts"><button class="wa" data-n="${esc(n)}"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.1-.3.3-.1.6.1.3.6 1.1 1.4 1.8 1 .9 1.8 1.1 2.1 1.3.3.1.4.1.6-.1l.8-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.4.2.5.3.1.2.1.7-.1 1.5z"/></svg>WhatsApp</button><button class="sh" data-n="${esc(n)}" aria-label="Share"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg><span>Share</span></button></div></div></div>`).join('');
 }
 for(const k in gal){
  document.getElementById('g-'+k).innerHTML=gal[k].map(([f,t])=>`<div class="tile" id="p-${slug(t)}" data-n="${esc(t)}"><div class="spin"><img src="images/${f}.jpg" alt="${esc(t)}" loading="lazy"></div><div class="tx"><h3>${esc(t)}</h3>${DESC[t]?`<p class="ds">${esc(DESC[t])}</p>`:''}
@@ -398,6 +428,25 @@ setMin();
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('sheet').classList.remove('on');$('zoom').classList.remove('on')}});
 render();
 $('yr').textContent=Math.max(2026,new Date().getFullYear());
+{/* Category ticker: tabs drift slowly left to right; any touch or click stops it for 5 seconds */
+ const w=document.querySelector('nav.tabs .wrap');
+ if(w&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
+  const orig=[...w.children];
+  orig.forEach(a=>{const c=a.cloneNode(true);c.setAttribute('aria-hidden','true');c.tabIndex=-1;w.appendChild(c)});
+  const gap=parseFloat(getComputedStyle(w).columnGap)||8;
+  let set=0,pos=0,until=0,last=0;
+  const measure=()=>{set=w.children[orig.length].offsetLeft-orig[0].offsetLeft};
+  const SPEED=14; /* pixels per second, very slow */
+  const stop=()=>{until=performance.now()+5000;pos=w.scrollLeft};
+  ['pointerdown','touchstart','wheel','click','keydown'].forEach(ev=>w.addEventListener(ev,stop,{passive:true}));
+  w.addEventListener('scroll',()=>{if(performance.now()<until){if(w.scrollLeft<2)w.scrollLeft+=set;else if(w.scrollLeft>=set*2-w.clientWidth)w.scrollLeft-=set;pos=w.scrollLeft}},{passive:true});
+  const tick=t=>{const dt=last?Math.min(t-last,100)/1000:0;last=t;
+   if(set&&t>=until){pos-=SPEED*dt;if(pos<=0)pos+=set;w.scrollLeft=pos}
+   requestAnimationFrame(tick)};
+  const start=()=>{measure();pos=set;w.scrollLeft=pos;requestAnimationFrame(tick)};
+  addEventListener('resize',()=>{const r=set?pos/set:1;measure();pos=set*r});
+  document.fonts&&document.fonts.ready?document.fonts.ready.then(start):addEventListener('load',start);
+ }}
 {const bp=document.querySelector('.bgpat');let t,ticking=false;
  const mv=matchMedia('(prefers-reduced-motion: reduce)').matches;
  addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(()=>{if(!mv)bp.style.backgroundPosition='0 '+(-scrollY*0.35)+'px';ticking=false});ticking=true}
