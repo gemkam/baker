@@ -241,6 +241,9 @@ html.app .iinst,html.app .getapp{display:none}
 .exb button{flex:1;min-height:48px;border-radius:14px;font:800 16px Nunito,sans-serif;cursor:pointer}
 .exno{border:0;background:var(--plum);color:#fff}
 .exyes{border:2px solid var(--line);background:var(--card);color:var(--ink)}
+.itoast{position:fixed;left:16px;right:16px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:31;max-width:420px;margin:0 auto;padding:14px 16px;border-radius:16px;background:#2a0f33;color:#fff;font:700 15px/1.4 Nunito,sans-serif;text-align:center;box-shadow:0 12px 30px rgba(0,0,0,.35);opacity:0;transform:translateY(16px);pointer-events:none;transition:opacity .3s,transform .3s}
+.itoast.on{opacity:1;transform:none}
+html[lang=ar] .itoast{font-family:"Baloo Bhaijaan 2",Nunito,sans-serif}
 .veil{position:fixed;inset:0;z-index:4;pointer-events:none;opacity:0;background:linear-gradient(170deg,var(--pg1) 0%,var(--pg2) 50%,var(--pg1) 100%);transition:opacity .38s ease}
 .veil.on{opacity:1;transition:opacity .22s ease}
 body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;background:linear-gradient(170deg,var(--pg1) 0%,var(--pg2) 50%,var(--pg1) 100%)}
@@ -608,21 +611,34 @@ $('yr').textContent=Math.max(2026,new Date().getFullYear());
  ex.addEventListener('click',e=>{if(e.target===ex){ex.classList.remove('on');guard()}});
  $('exyes').addEventListener('click',()=>{leaving=true;ex.classList.remove('on');history.back();setTimeout(()=>{try{window.close()}catch(e){}},300)});
 }
-/* ===== install as app ===== */
+/* ===== install as app: direct install where the phone allows it ===== */
 {let dip=null;const de=document.documentElement;
+ Object.assign(TEN,{instd:'✅ The app is already installed on your phone. Open Sculpted Slice from your home screen.',instok:'✅ Installed! Find Sculpted Slice on your home screen.'});
+ Object.assign(TRU.ar,{instd:'✅ التطبيق مثبّت في تلفونك. افتح Sculpted Slice من الشاشة الرئيسية.',instok:'✅ انثبّت! تلقى Sculpted Slice في الشاشة الرئيسية.'});
+ Object.assign(TRU.ur,{instd:'✅ App pehle se aap ke phone mein install hai. Home screen se Sculpted Slice kholein.',instok:'✅ Install ho gaya! Home screen par Sculpted Slice dekhein.'});
  const isApp=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
  const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
  if(isApp)de.classList.add('app');
  const inst=$('inst');
- const seen=()=>{try{return localStorage.getItem('ss-inst')}catch(e){return null}};
- function openInst(){$('instA').style.display=dip?'block':'none';$('instI').style.display=!dip&&isIOS?'block':'none';$('instO').style.display=!dip&&!isIOS?'block':'none';inst.classList.add('on')}
- function closeInst(){inst.classList.remove('on');try{localStorage.setItem('ss-inst','1')}catch(e){}}
- addEventListener('beforeinstallprompt',e=>{e.preventDefault();dip=e;if(inst.classList.contains('on'))openInst()});
- addEventListener('appinstalled',()=>{de.classList.add('app');closeInst()});
- $('iinst').addEventListener('click',openInst);$('ifoot').addEventListener('click',openInst);
+ const toast=m=>{let t=document.getElementById('itoast');if(!t){t=document.createElement('div');t.id='itoast';t.className='itoast';t.setAttribute('role','status');document.body.appendChild(t)}t.textContent=m;t.classList.add('on');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('on'),4500)};
+ const markInst=()=>{try{localStorage.setItem('ss-installed','1')}catch(e){}};
+ async function installed(){
+  if(isApp)return true;
+  try{if(navigator.getInstalledRelatedApps){const r=await navigator.getInstalledRelatedApps();if(r&&r.length)return true}}catch(e){}
+  if(dip)return false;
+  try{return localStorage.getItem('ss-installed')==='1'}catch(e){return false}}
+ function steps(){$('instA').style.display='none';$('instI').style.display=isIOS?'block':'none';$('instO').style.display=isIOS?'none':'block';inst.classList.add('on')}
+ const closeInst=()=>inst.classList.remove('on');
+ async function doInstall(){
+  if(!dip&&!isIOS)await new Promise(r=>setTimeout(r,1200));
+  if(dip){const d=dip;dip=null;d.prompt();try{const c=await d.userChoice;if(c&&c.outcome==='accepted'){markInst();toast(T('instok'))}}catch(e){}return}
+  if(await installed()){toast(T('instd'));return}
+  steps()}
+ addEventListener('beforeinstallprompt',e=>{e.preventDefault();dip=e;try{localStorage.removeItem('ss-installed')}catch(x){}});
+ addEventListener('appinstalled',()=>{markInst();closeInst();toast(T('instok'))});
+ $('iinst').addEventListener('click',doInstall);$('ifoot').addEventListener('click',doInstall);
  $('instx').addEventListener('click',closeInst);inst.addEventListener('click',e=>{if(e.target===inst)closeInst()});
- $('instgo').addEventListener('click',async()=>{if(!dip)return openInst();dip.prompt();try{await dip.userChoice}catch(e){}dip=null;closeInst()});
- if(!isApp&&new URLSearchParams(location.search).has('install'))setTimeout(openInst,900);
+ if(!isApp&&new URLSearchParams(location.search).has('install'))setTimeout(()=>{installed().then(i=>{if(i)toast(T('instd'));else if(isIOS)steps()})},1500);
  if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
 }
 
