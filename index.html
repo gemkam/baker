@@ -112,6 +112,14 @@ footer b{color:var(--ink)}
 .step{display:flex;align-items:center;gap:6px}
 .step button{width:36px;height:36px;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-weight:800;cursor:pointer}
 .tot{display:flex;justify-content:space-between;font:800 20px "Baloo 2",sans-serif;padding:14px 0}
+.adv{display:flex;justify-content:space-between;align-items:center;gap:10px;font:800 16px "Baloo 2",sans-serif;padding:10px 14px;border-radius:14px;background:var(--pink);color:var(--plum2);margin-bottom:6px}
+.adv.bal{background:var(--aqua);color:var(--ink)}
+.adv-s{margin:4px 0 6px;font-size:13px}
+.advn{display:inline-block;margin-top:8px;padding:6px 10px;border-radius:12px;background:var(--pink);font-weight:600}
+.advn a{color:var(--plum2);font-weight:800}
+.policy ol{margin:8px 0 0;padding:16px 16px 16px 34px;background:var(--card);border:2px solid var(--line);border-radius:20px}
+.policy li{margin:0 0 10px;line-height:1.5}.policy li:last-child{margin:0}
+.agree{display:flex;gap:8px;align-items:flex-start;margin:12px 0 0;font-size:14px;font-weight:600}.agree input{width:20px;height:20px;margin:1px 0 0;flex:none;accent-color:var(--plum)}
 label{font-weight:700;font-size:14px;display:block;margin-top:8px}
 input,textarea{width:100%;font:16px Nunito,sans-serif;padding:12px;border-radius:12px;border:2px solid var(--line);background:var(--card);color:var(--ink);margin-top:4px}
 .send.off{opacity:.45;pointer-events:none}
@@ -258,11 +266,11 @@ body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;ba
 
 
 <nav class="tabs" id="menu"><div class="wrap">
-  <a href="#brownies">Brownies</a><a href="#cupcakes">Cupcakes</a><a href="#cookies">Cookies</a><a href="#biscuits">Assorted biscuits</a><a href="#custom">Customised cakes</a><a href="#cheesecakes">Cheesecakes</a><a href="#cakes">Celebration cakes</a><a href="#theme">Theme cakes</a>
+  <a href="#brownies">Brownies</a><a href="#cupcakes">Cupcakes</a><a href="#cookies">Cookies</a><a href="#biscuits">Assorted biscuits</a><a href="#custom">Customised cakes</a><a href="#cheesecakes">Cheesecakes</a><a href="#cakes">Celebration cakes</a><a href="#theme">Theme cakes</a><a href="#policy">Order policy</a>
 </div></nav>
 
 <main class="wrap">
-  <p class="note">Brownies, cupcakes and cookies: please order <b>2 days</b> before.<br>All cakes: please order at least <b>3 days</b> before.<br><span style="font-weight:600">Tap a box size or cake weight to add it, then send your order on WhatsApp.</span></p>
+  <p class="note">Brownies, cupcakes and cookies: please order <b>2 days</b> before.<br>All cakes: please order at least <b>3 days</b> before.<br><span style="font-weight:600">Tap a box size or cake weight to add it, then send your order on WhatsApp.</span><br><span class="advn">💳 Brownies, cupcakes, cookies and biscuits: <b>full payment in advance</b>. Cakes: <b>50% advance</b> to book, balance before handover. <a href="#policy">Read our order policy</a></span></p>
 
   <section id="brownies">
     <h2>Brownies</h2><p class="h2s">Boxes of 6 or 12 · order 2 days before</p>
@@ -306,6 +314,19 @@ body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;ba
     <div class="grid" id="g-theme"></div>
   </section>
 
+  <section id="policy" class="policy">
+    <h2>Order Policy</h2><p class="h2s">Please read before you order</p>
+    <ol>
+      <li><b>Payment.</b> Brownies, cupcakes, cookies and biscuits are paid <b>100% in advance</b>. Cakes need a <b>50% advance</b> to book your date, and the balance is paid <b>before pickup or delivery</b>.</li>
+      <li><b>Order confirmation.</b> Your order is confirmed only after the advance is received. Payment details are shared on WhatsApp.</li>
+      <li><b>Cake photo approval.</b> When your cake is ready, we send you a photo on WhatsApp. Once you approve it and pay the balance, the cake is handed over.</li>
+      <li><b>Order time.</b> Brownies, cupcakes, cookies and biscuits: at least 2 days before. All cakes: at least 3 days before.</li>
+      <li><b>Changes and cancellation.</b> Changes to flavour, theme or message are accepted up to 2 days before your date. The advance is non-refundable once baking has started.</li>
+      <li><b>Quality check.</b> Please check your order at pickup or delivery. If there is any problem, send us a photo within 2 hours and before eating. We will replace the item or give a discount on your next order. No refunds after the items are eaten.</li>
+      <li><b>Allergies.</b> Everything is homemade in a kitchen that uses eggs, dairy, wheat and nuts. Please tell us about any allergy before you order.</li>
+    </ol>
+  </section>
+
   <footer>© <span id="yr">2026</span> Sculpted Slice. All rights reserved.<br>Website designed and developed by <b>KS Tech LLC</b>, Muscat, Sultanate of Oman.</footer>
 </main>
 
@@ -317,9 +338,13 @@ body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;ba
   <h2>Your order</h2>
   <div id="lines"></div>
   <div class="tot"><span>Total</span><span id="tot">0 OMR</span></div>
+  <div class="adv"><span>Pay now to confirm</span><span id="adv">0 OMR</span></div>
+  <div class="adv bal" id="balrow"><span>Cake balance before handover</span><span id="bal">0 OMR</span></div>
+  <p class="h2s adv-s" id="advs">Full payment in advance for brownies, cupcakes, cookies and biscuits. Cakes: 50% now, balance after you approve the cake photo and before pickup or delivery.</p>
   <label for="nm">Your name</label><input id="nm" autocomplete="name">
   <label for="dt" id="dtl">Needed on (at least 2 days from today)</label><p id="dtw" class="h2s" style="color:var(--cherry);margin:4px 0 0;display:none"></p><input id="dt" type="date">
   <label for="nt">Notes</label><textarea id="nt" rows="2" placeholder="Cake theme, colours, flavour, name or message, pickup or delivery area"></textarea>
+  <label class="agree"><input type="checkbox" id="ok"><span>I have read and agree to the <a href="#policy" id="pol">order policy</a></span></label>
   <a class="send" id="send" target="_blank" rel="noopener">Send order on WhatsApp</a>
 </div></div>
 
@@ -393,10 +418,13 @@ function render(){
  ids.forEach(i=>{n+=cart[i].q;t+=cart[i].q*cart[i].p});
  $('bar').classList.toggle('on',n>0);
  $('cnt').textContent=n+(n==1?' item':' items')+' · View order';$('sum').textContent=t+' OMR';$('tot').textContent=t+' OMR';
+ let ck=0;ids.forEach(i=>{if(i.includes(' kg'))ck+=cart[i].q*cart[i].p});
+ const r3=x=>+x.toFixed(3);const bl=r3(ck/2),ad=r3(t-bl);
+ $('adv').textContent=ad+' OMR';$('bal').textContent=bl+' OMR';$('balrow').style.display=bl?'flex':'none';
  $('lines').innerHTML=ids.map(i=>{const [nm,q]=i.split('|');return `<div class="li"><span>${esc(nm)}<br><span class="qty">${q.includes('kg')?'Cake '+q:'Box of '+q}</span></span>
  <span class="step"><button data-d="-1" data-i="${esc(i)}" aria-label="Less">−</button><b>${cart[i].q}</b><button data-d="1" data-i="${esc(i)}" aria-label="More">+</button></span><span class="p">${cart[i].q*cart[i].p} OMR</span></div>`}).join('')||'<p class="h2s">No items yet.</p>';
  document.querySelectorAll('.opt').forEach(b=>{const [nm,q]=b.dataset.id.split('|');let c=0;for(const i in cart){const [n2,q2]=i.split('|');if(q2==q&&(n2==nm||n2.startsWith(nm+' (')))c+=cart[i].q}b.classList.toggle('added',c>0);b.querySelector('.badge').textContent=c||''});
- const msg=['Hello Mariam, I want to order from sculpted_slice:',...ids.map(i=>{const [nm,q]=i.split('|');return `- ${cart[i].q} x ${nm} (${q.includes('kg')?q:'box of '+q}) = ${cart[i].q*cart[i].p} OMR`}),`Total: ${t} OMR`];
+ const msg=['Hello Mariam, I want to order from sculpted_slice:',...ids.map(i=>{const [nm,q]=i.split('|');return `- ${cart[i].q} x ${nm} (${q.includes('kg')?q:'box of '+q}) = ${cart[i].q*cart[i].p} OMR`}),`Total: ${t} OMR`,`Advance to pay now: ${ad} OMR`,...(bl?[`Cake balance before handover: ${bl} OMR`]:[]),'I agree to the order policy.'];
  if($('nm').value)msg.push('Name: '+$('nm').value);if($('dt').value)msg.push('Needed on: '+$('dt').value);if($('nt').value)msg.push('Notes: '+$('nt').value);
  $('send').href=`https://wa.me/${WA}?text=${encodeURIComponent(msg.join('\n'))}`;
 }
@@ -422,6 +450,8 @@ $('zoom').onclick=()=>$('zoom').classList.remove('on');
 $('view').onclick=()=>$('sheet').classList.add('on');
 $('x').onclick=()=>$('sheet').classList.remove('on');
 $('sheet').onclick=e=>{if(e.target.id==='sheet')$('sheet').classList.remove('on')};
+$('ok').addEventListener('change',()=>{render();setMin()});
+$('pol').addEventListener('click',()=>$('sheet').classList.remove('on'));
 ['nm','dt','nt'].forEach(i=>$(i).addEventListener('input',()=>{render();setMin()}));
 document.addEventListener('click',()=>setTimeout(setMin,0));
 const lead=()=>Object.keys(cart).some(i=>i.includes(' kg'))?3:2;
@@ -429,7 +459,7 @@ const ymd=d=>{const z=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+z(
 function setMin(){const n=lead();const d=new Date();d.setDate(d.getDate()+n);$('dt').min=ymd(d);
  $('dtl').textContent='Needed on (at least '+n+' days from today'+(n==3?', cakes need 3 days':'')+')';
  const bad=$('dt').value&&$('dt').value<$('dt').min;$('dtw').style.display=bad?'block':'none';$('dtw').textContent=bad?'Please pick a date at least '+n+' days from today.':'';
- $('send').classList.toggle('off',!!bad)}
+ $('send').classList.toggle('off',!!bad||!$('ok').checked)}
 setMin();
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('sheet').classList.remove('on');$('zoom').classList.remove('on')}});
 render();
