@@ -118,6 +118,22 @@ input,textarea{width:100%;font:16px Nunito,sans-serif;padding:12px;border-radius
 .grid>.tile:last-child:nth-child(odd) .tx{padding:12px}}
 @media(min-width:600px){.grid>.tile:only-child{grid-column:1/-1;flex-direction:row}.grid>.tile:only-child img{width:40%;aspect-ratio:auto;flex:none}}
 .addc{white-space:nowrap;font-size:13px!important}
+/* eye-catching section headings */
+main section>h2,.custom h2{text-align:center;font:800 clamp(30px,9vw,42px)/1.05 "Baloo 2",sans-serif;text-wrap:balance;margin:40px auto 6px;max-width:16ch;
+ background:var(--hg);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;filter:drop-shadow(0 2px 0 rgba(255,255,255,.6))}
+main section>h2::after,.custom h2::after{content:"";display:block;width:90px;height:5px;margin:8px auto 0;border-radius:9px;background:var(--hg)}
+main section>.h2s{text-align:center;max-width:34ch;margin:0 auto 16px;text-wrap:balance}
+#brownies{--hg:linear-gradient(90deg,#8b3a1e,#d2691e,#f0a04b)}
+#cupcakes{--hg:linear-gradient(90deg,#ff3e8e,#ff8fc1,#c86bff)}
+#cookies{--hg:linear-gradient(90deg,#e07b00,#ffb300,#ff6f3c)}
+#cheesecakes{--hg:linear-gradient(90deg,#c2410c,#f59e0b,#d97706)}
+#cakes{--hg:linear-gradient(90deg,#e11d74,#f472b6,#fb7185)}
+#theme{--hg:linear-gradient(90deg,#2563eb,#06b6d4,#8b5cf6)}
+.custom{--hg:linear-gradient(90deg,#7b2d8e,#d63384,#ff7a59);text-align:center}
+.custom h2{margin-top:0;font-size:clamp(32px,10vw,46px)}
+@media(prefers-color-scheme:dark){main section>h2,.custom h2{filter:none}}
+@media(prefers-reduced-motion:no-preference){main section>h2,.custom h2{background-size:200% 100%;animation:hshine 6s ease-in-out infinite alternate}
+@keyframes hshine{from{background-position:0% 50%}to{background-position:100% 50%}}}
 @media(max-width:359px){.kg b{font-size:10.5px}.kgs{gap:4px}.tile .tx{padding:10px 8px 12px}}
 @media(min-width:600px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.banner{height:260px}}
 @media(prefers-reduced-motion:no-preference){.opt:active{transform:scale(.95)}}
