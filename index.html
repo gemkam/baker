@@ -119,6 +119,15 @@ footer b{color:var(--ink)}
 .advn a{color:var(--plum2);font-weight:800}
 .policy ol{margin:8px 0 0;padding:16px 16px 16px 34px;background:var(--card);border:2px solid var(--line);border-radius:20px}
 .policy li{margin:0 0 10px;line-height:1.5}.policy li:last-child{margin:0}
+.alg{border:2px solid var(--line);border-radius:16px;margin:14px 0 0;padding:10px 12px 8px}
+.alg legend{font-weight:800;padding:0 6px}.alg legend small{font-weight:600;color:var(--soft)}
+.algr{display:flex;flex-direction:column;gap:6px;padding:7px 0;border-bottom:1px dashed var(--line)}
+.algn{font-weight:800;font-size:14px}.algo{display:flex;flex-wrap:wrap;gap:6px}
+.algo label{cursor:pointer}.algo input{position:absolute;opacity:0;pointer-events:none}
+.algo span{display:inline-block;padding:7px 12px;border-radius:99px;border:2px solid var(--line);font-weight:700;font-size:13px}
+.algo input:checked+span{background:var(--plum);border-color:var(--plum);color:#fff}
+.algo input:focus-visible+span{outline:2px solid var(--plum2);outline-offset:2px}
+#nutx{margin-top:8px}.alg-s{margin:8px 0 0;font-size:12.5px}
 .agree{display:flex;gap:8px;align-items:flex-start;margin:12px 0 0;font-size:14px;font-weight:600}.agree input{width:20px;height:20px;margin:1px 0 0;flex:none;accent-color:var(--plum)}
 label{font-weight:700;font-size:14px;display:block;margin-top:8px}
 input,textarea{width:100%;font:16px Nunito,sans-serif;padding:12px;border-radius:12px;border:2px solid var(--line);background:var(--card);color:var(--ink);margin-top:4px}
@@ -323,7 +332,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;ba
       <li><b>Order time.</b> Brownies, cupcakes, cookies and biscuits: at least 2 days before. All cakes: at least 3 days before.</li>
       <li><b>Changes and cancellation.</b> Changes to flavour, theme or message are accepted up to 2 days before your date. The advance is non-refundable once baking has started.</li>
       <li><b>Quality check.</b> Please check your order at pickup or delivery. If there is any problem, send us a photo within 2 hours and before eating. We will replace the item or give a discount on your next order. No refunds after the items are eaten.</li>
-      <li><b>Allergies.</b> Everything is homemade in a kitchen that uses eggs, dairy, wheat and nuts. Please tell us about any allergy before you order.</li>
+      <li><b>Allergies and diet.</b> When you order, you choose egg or eggless, with dairy or dairy-free, regular or gluten-free, and nuts or no nuts, and you can name any nut you are allergic to. We will confirm on WhatsApp if your items can be made that way. Everything is homemade in a kitchen that also uses eggs, dairy, wheat and nuts, so we cannot promise zero traces.</li>
     </ol>
   </section>
 
@@ -344,6 +353,13 @@ body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;ba
   <label for="nm">Your name</label><input id="nm" autocomplete="name">
   <label for="dt" id="dtl">Needed on (at least 2 days from today)</label><p id="dtw" class="h2s" style="color:var(--cherry);margin:4px 0 0;display:none"></p><input id="dt" type="date">
   <label for="nt">Notes</label><textarea id="nt" rows="2" placeholder="Cake theme, colours, flavour, name or message, pickup or delivery area"></textarea>
+  <fieldset class="alg" id="alg"><legend>Allergies and diet <small>(required)</small></legend>
+<div class="algr"><span class="algn">Eggs</span><div class="algo"><label><input type="radio" name="egg" value="With egg"><span>With egg</span></label><label><input type="radio" name="egg" value="Eggless"><span>Eggless</span></label></div></div>
+<div class="algr"><span class="algn">Dairy</span><div class="algo"><label><input type="radio" name="dairy" value="With dairy"><span>With dairy</span></label><label><input type="radio" name="dairy" value="Dairy-free"><span>Dairy-free</span></label></div></div>
+<div class="algr"><span class="algn">Wheat / gluten</span><div class="algo"><label><input type="radio" name="wheat" value="Regular flour"><span>Regular flour</span></label><label><input type="radio" name="wheat" value="Gluten-free"><span>Gluten-free</span></label></div></div>
+<div class="algr"><span class="algn">Nuts</span><div class="algo"><label><input type="radio" name="nuts" value="Nuts are fine"><span>Nuts are fine</span></label><label><input type="radio" name="nuts" value="No nuts at all"><span>No nuts at all</span></label><label><input type="radio" name="nuts" value="Allergic to a nut"><span>Allergic to a nut</span></label></div></div>
+<input id="nutx" placeholder="Which nut? e.g. almond, peanut, pistachio" style="display:none">
+<p class="h2s alg-s">If only some items need this, write which ones in the notes. We will confirm on WhatsApp if your items can be made this way.</p></fieldset>
   <label class="agree"><input type="checkbox" id="ok"><span>I have read and agree to the <a href="#policy" id="pol">order policy</a></span></label>
   <a class="send" id="send" target="_blank" rel="noopener">Send order on WhatsApp</a>
 </div></div>
@@ -426,6 +442,7 @@ function render(){
  document.querySelectorAll('.opt').forEach(b=>{const [nm,q]=b.dataset.id.split('|');let c=0;for(const i in cart){const [n2,q2]=i.split('|');if(q2==q&&(n2==nm||n2.startsWith(nm+' (')))c+=cart[i].q}b.classList.toggle('added',c>0);b.querySelector('.badge').textContent=c||''});
  const msg=['Hello Mariam, I want to order from sculpted_slice:',...ids.map(i=>{const [nm,q]=i.split('|');return `- ${cart[i].q} x ${nm} (${q.includes('kg')?q:'box of '+q}) = ${cart[i].q*cart[i].p} OMR`}),`Total: ${t} OMR`,`Advance to pay now: ${ad} OMR`,...(bl?[`Cake balance before handover: ${bl} OMR`]:[]),'I agree to the order policy.'];
  if($('nm').value)msg.push('Name: '+$('nm').value);if($('dt').value)msg.push('Needed on: '+$('dt').value);if($('nt').value)msg.push('Notes: '+$('nt').value);
+ const al=algVals();if(al.length)msg.push('Allergies and diet: '+al.join(', '));
  $('send').href=`https://wa.me/${WA}?text=${encodeURIComponent(msg.join('\n'))}`;
 }
 document.addEventListener('click',e=>{
@@ -454,12 +471,16 @@ $('ok').addEventListener('change',()=>{render();setMin()});
 $('pol').addEventListener('click',()=>$('sheet').classList.remove('on'));
 ['nm','dt','nt'].forEach(i=>$(i).addEventListener('input',()=>{render();setMin()}));
 document.addEventListener('click',()=>setTimeout(setMin,0));
+const algV=n=>{const r=document.querySelector(`input[name=${n}]:checked`);return r?r.value:''};
+function algVals(){return ['egg','dairy','wheat','nuts'].map(n=>{const v=algV(n);if(n=='nuts'&&v=='Allergic to a nut')return 'Allergic to: '+($('nutx').value.trim()||'(nut not named)');return v}).filter(Boolean)}
+const algOK=()=>['egg','dairy','wheat','nuts'].every(algV)&&(algV('nuts')!='Allergic to a nut'||$('nutx').value.trim());
+$('alg').addEventListener('input',()=>{$('nutx').style.display=algV('nuts')=='Allergic to a nut'?'block':'none';render();setMin()});
 const lead=()=>Object.keys(cart).some(i=>i.includes(' kg'))?3:2;
 const ymd=d=>{const z=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate())};
 function setMin(){const n=lead();const d=new Date();d.setDate(d.getDate()+n);$('dt').min=ymd(d);
  $('dtl').textContent='Needed on (at least '+n+' days from today'+(n==3?', cakes need 3 days':'')+')';
  const bad=$('dt').value&&$('dt').value<$('dt').min;$('dtw').style.display=bad?'block':'none';$('dtw').textContent=bad?'Please pick a date at least '+n+' days from today.':'';
- $('send').classList.toggle('off',!!bad||!$('ok').checked)}
+ $('send').classList.toggle('off',!!bad||!$('ok').checked||!algOK())}
 setMin();
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('sheet').classList.remove('on');$('zoom').classList.remove('on')}});
 render();
