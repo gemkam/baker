@@ -10,11 +10,12 @@
 <meta property="og:site_name" content="sculpted_slice">
 <meta property="og:title" content="Mariam Rabail Rashid | Custom Cake Artist">
 <meta property="og:description" content="COTHM Certified Baker in Muscat. Cakes, brownies, cupcakes and cheesecakes. Order on WhatsApp 7999 4021.">
-<meta property="og:image" content="https://baker-mocha.vercel.app/images/share.jpg?v=2">
+<meta property="og:image" content="https://baker-mocha.vercel.app/images/share.jpg?v=3">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Sculpted Slice by Maryam Baker, COTHM Certified Baker">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://baker-mocha.vercel.app/images/share.jpg?v=2">
+<meta name="twitter:image" content="https://baker-mocha.vercel.app/images/share.jpg?v=3">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%8E%82%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
@@ -122,7 +123,7 @@ input,textarea{width:100%;font:16px Nunito,sans-serif;padding:12px;border-radius
 @media(min-width:600px){.grid>.tile:only-child{grid-column:1/-1;flex-direction:row}.grid>.tile:only-child img{width:40%;aspect-ratio:auto;flex:none}}
 .addc{white-space:nowrap;font-size:13px!important}
 /* eye-catching section headings */
-main section>h2,.custom h2{text-align:center;font:800 clamp(30px,9vw,42px)/1.05 "Baloo 2",sans-serif;text-wrap:balance;margin:40px auto 6px;max-width:16ch;
+main section>h2,.custom h2{text-align:center;display:block;margin-left:auto!important;margin-right:auto!important;font:800 clamp(30px,9vw,42px)/1.05 "Baloo 2",sans-serif;text-wrap:balance;margin:40px auto 6px;max-width:16ch;
  background:var(--hg);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;filter:drop-shadow(0 2px 0 rgba(255,255,255,.6))}
 main section>h2::after,.custom h2::after{content:"";display:block;width:90px;height:5px;margin:8px auto 0;border-radius:9px;background:var(--hg)}
 main section>.h2s{text-align:center;max-width:34ch;margin:0 auto 16px;text-wrap:balance}
@@ -159,8 +160,7 @@ main section>.h2s{text-align:center;max-width:34ch;margin:0 auto 16px;text-wrap:
 
 /* heading slide-in (once, on scroll) */
 @media(prefers-reduced-motion:no-preference){
-.js main section>h2,.js .custom h2{opacity:0;translate:-48px 0;transition:opacity .7s ease-out,translate .7s cubic-bezier(.2,.8,.2,1)}
-.js main section:nth-of-type(even)>h2{translate:48px 0}
+.js main section>h2,.js .custom h2{opacity:0;translate:0 -28px;transition:opacity .7s ease-out,translate .8s cubic-bezier(.22,1.2,.36,1)}
 .js main section>h2::after,.js .custom h2::after{transform:scaleX(0);transition:transform .6s ease-out .45s}
 .js main section>.h2s{opacity:0;transition:opacity .6s ease-out .35s}
 .js .in>h2,.js .custom.in h2{opacity:1;translate:0 0}
