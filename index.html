@@ -270,6 +270,19 @@ nav.tabs a.nf{background:linear-gradient(90deg,#c2408f,#7b2d8e);color:#fff}
 .sw{width:36px;height:36px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px var(--line);cursor:pointer}
 .sw[aria-pressed=true]{box-shadow:0 0 0 3px var(--plum);transform:scale(1.08)}
 #dzm{width:100%;box-sizing:border-box;border:2px solid var(--line);border-radius:12px;padding:11px 12px;font:700 15px Nunito,sans-serif;background:var(--bg);color:var(--ink)}
+.season{margin:16px 0 0;padding:14px 16px;border-radius:18px;color:#fff;box-shadow:0 10px 24px rgba(0,0,0,.18);position:relative;overflow:hidden}
+.sea-xmas .season{background:linear-gradient(120deg,#b3122e,#d7263d 45%,#1f7a4d)}
+.sea-ny .season{background:linear-gradient(120deg,#1b1035,#3a1d6e 55%,#b8860b)}
+.season p{margin:0 0 10px;font-weight:700;line-height:1.5;text-align:start}
+.season b{font-size:1.08em}
+.sbtn{border:0;border-radius:99px;padding:10px 16px;background:#fff;color:#7b2d8e;font:800 14.5px Nunito,sans-serif;cursor:pointer}
+html[lang=ar] .sbtn{font-family:"Baloo Bhaijaan 2",Nunito,sans-serif}
+.sfx{position:absolute;inset:0;pointer-events:none;z-index:2;overflow:hidden}
+.sfx i{position:absolute;top:-6%;color:#fff;font-style:normal;opacity:.85;text-shadow:0 0 6px rgba(255,255,255,.7);animation:snow linear infinite}
+.sea-ny .sfx i{color:#ffd76a;text-shadow:0 0 8px rgba(255,200,80,.9);animation-name:spark}
+@keyframes snow{from{transform:translate(0,0)}to{transform:translate(18px,112cqh)}}
+@keyframes spark{0%{transform:translate(0,0) scale(.6);opacity:0}15%{opacity:1}100%{transform:translate(-10px,112cqh) scale(1);opacity:.2}}
+@media(prefers-reduced-motion:reduce){.sfx{display:none}}
 .veil{position:fixed;inset:0;z-index:4;pointer-events:none;opacity:0;background:linear-gradient(170deg,var(--pg1) 0%,var(--pg2) 50%,var(--pg1) 100%);transition:opacity .38s ease}
 .veil.on{opacity:1;transition:opacity .22s ease}
 body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;background:linear-gradient(170deg,var(--pg1) 0%,var(--pg2) 50%,var(--pg1) 100%)}
@@ -356,6 +369,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;ba
 </div></nav>
 
 <main class="wrap">
+  <div class="season" id="season" hidden></div>
   <p class="note rfl">📌 Before you order, please tap <a href="#policy">Read first</a> for order times, payment and our policy.</p>
 
   <section id="planner" class="feat">
@@ -820,6 +834,7 @@ function renderDZ(full){
   <div class="prow"><span class="plab">${P('flav')}</span><div class="chips">${['vanilla','chocolate','marble','biscoff'].map(v=>chip('flav',v,DS.flav==v,P(v))).join('')}</div></div>
   <div class="prow"><span class="plab">${P('c1')}</span><div class="sws">${COL.map((c,i)=>`<button type="button" class="sw" data-g="c1" data-v="${i}" aria-pressed="${DS.c1==i}" aria-label="${c[0]}" title="${c[0]}" style="background:${c[1]}"></button>`).join('')}</div></div>
   <div class="prow"><span class="plab">${P('c2')}</span><div class="sws">${COL.map((c,i)=>`<button type="button" class="sw" data-g="c2" data-v="${i}" aria-pressed="${DS.c2==i}" aria-label="${c[0]}" title="${c[0]}" style="background:${c[1]}"></button>`).join('')}</div></div>
+  ${SEA?`<div class="prow"><span class="plab">${P('look')}</span><div class="chips"><button type="button" class="chip" data-g="look" data-v="${SEA}" aria-pressed="false">${P('l'+SEA)}</button></div></div>`:''}
   <div class="prow"><span class="plab">${P('deco')}</span><div class="chips">${['rosettes','sprinkles','drip','flowers','smooth'].map(v=>chip('deco',v,DS.deco==v,P(v))).join('')}</div></div>
   <div class="prow"><label class="plab" for="dzm">${P('msg')}</label><input id="dzm" maxlength="28" placeholder="${P('msgph')}" value="${esc(DS.msg)}"></div>
   <div class="ptot"><span>${P('price')}</span><span id="dzpr"></span></div>
@@ -833,8 +848,35 @@ document.addEventListener('click',e=>{
   const key=`Custom cake (${det})|${kgKey(DS.kg)}`;cart[key]=cart[key]||{q:0,p:dPrice()};cart[key].q++;render();ad.textContent=P('added');setTimeout(()=>{ad.textContent='🎂 '+P('add')},1300)}});
 document.addEventListener('input',e=>{if(e.target.id=='dzm'){DS.msg=e.target.value;renderDZ(false)}});
 NMS.ar['Custom cake']='كيكة حسب تصميمك';
-renderPL();renderDZ();
-const _sl=setLang;setLang=l=>{_sl(l);renderPL();renderDZ()};
+
+/* ---------- Seasons: Christmas and New Year (by Muscat date) ---------- */
+const SEA=(()=>{const q=new URLSearchParams(location.search).get('season');if(q==='xmas'||q==='ny')return q;
+ const d=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Muscat'}));const m=d.getMonth(),dd=d.getDate();
+ if((m===10&&dd>=25)||(m===11&&dd<=26))return 'xmas';if((m===11&&dd>=27)||(m===0&&dd<=3))return 'ny';return ''})();
+const NYY=(()=>{const d=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Muscat'}));return d.getMonth()===0?d.getFullYear():d.getFullYear()+1})();
+Object.assign(PT.en,{xmas:'Christmas',ny:'New Year',look:'Festive look',lxmas:'🎄 Christmas look',lny:'🎆 New Year look',plan:'🎉 Plan my party',
+ sxmas:'🎄 <b>Christmas treats are here!</b> Brownies, cupcakes, biscuit boxes and cakes for your Christmas table. Order early for 24 and 25 December.',
+ sny:'🎆 <b>Welcome {y} with something sweet!</b> Party boxes and cakes for your New Year celebration. Order early for 31 December.'});
+Object.assign(PT.ar,{xmas:'الكريسمس',ny:'رأس السنة',look:'لوك المناسبة',lxmas:'🎄 لوك الكريسمس',lny:'🎆 لوك رأس السنة',plan:'🎉 خطط حفلتك',
+ sxmas:'🎄 <b>حلويات الكريسمس وصلت!</b> براونيز وكب كيك وعلب بسكويت وكيك حق طاولة الكريسمس. اطلب بدري حق 24 و25 ديسمبر.',
+ sny:'🎆 <b>استقبل {y} بشي حلو!</b> علب حفلات وكيك حق احتفال رأس السنة. اطلب بدري حق 31 ديسمبر.'});
+Object.assign(PT.ur,{xmas:'Christmas',ny:'New Year',look:'Tehwar look',lxmas:'🎄 Christmas look',lny:'🎆 New Year look',plan:'🎉 Party plan karein',
+ sxmas:'🎄 <b>Christmas treats aa gaye!</b> Christmas table ke liye brownies, cupcakes, biscuit boxes aur cakes. 24 aur 25 December ke liye jaldi order karein.',
+ sny:'🎆 <b>{y} ka istiqbal meetha karein!</b> New Year party ke liye boxes aur cakes. 31 December ke liye jaldi order karein.'});
+const LOOK={xmas:{c1:7,c2:2,deco:'rosettes'},ny:{c1:10,c2:8,deco:'sprinkles'}};
+if(SEA){
+ document.documentElement.classList.add('sea-'+SEA);
+ const o2={};o2[SEA]=SEA==='xmas'?'Sprinkle party cake':'Ombre ribbed rosette cake';Object.assign(o2,OCC);for(const k in OCC)delete OCC[k];Object.assign(OCC,o2);PS.o=SEA;
+ const fx=document.createElement('div');fx.className='sfx';fx.setAttribute('aria-hidden','true');
+ for(let i=0;i<22;i++){const sp=document.createElement('i');sp.textContent=SEA==='xmas'?(i%3?'•':'❄'):(i%2?'✦':'•');sp.style.left=(i*4.6+((i*37)%5))+'%';sp.style.animationDelay=(-(i*0.83)%9)+'s';sp.style.animationDuration=(7+(i%5)*1.6)+'s';sp.style.fontSize=(8+(i*7)%12)+'px';fx.appendChild(sp)}
+ const intro=document.querySelector('.intro');if(intro)intro.appendChild(fx);
+}
+function renderSeason(){const el=document.getElementById('season');if(!el)return;if(!SEA){el.hidden=true;return}
+ el.hidden=false;el.innerHTML=`<p>${PF('s'+SEA,{y:NYY})}</p><button type="button" class="sbtn" id="splan">${P('plan')}</button>`}
+document.addEventListener('click',e=>{if(e.target.closest('#splan')){PS.o=SEA||PS.o;renderPL();jumpTo(document.getElementById('planner'))}
+ const lk=e.target.closest('#dz .chip[data-g="look"]');if(lk){Object.assign(DS,LOOK[lk.dataset.v]);renderDZ();e.stopImmediatePropagation()}},true);
+renderPL();renderDZ();renderSeason();
+const _sl=setLang;setLang=l=>{_sl(l);renderPL();renderDZ();renderSeason()};
 }
 }
 </script>
