@@ -175,6 +175,16 @@ main section>.h2s{text-align:center;max-width:34ch;margin:0 auto 16px;text-wrap:
 .bgpat.on{opacity:.11}
 @media(prefers-color-scheme:dark){.bgpat{filter:invert(1) hue-rotate(180deg)}}
 html{background:var(--bg)}
+/* gentle 3D turntable turn on cake photos */
+.spin{position:relative;overflow:hidden;perspective:700px;background:linear-gradient(135deg,var(--pink),var(--aqua))}
+.spin img{transform:scale(1.14)}
+@media(prefers-reduced-motion:no-preference){
+.spin img{transform-origin:50% 60%;animation:turn 8s ease-in-out infinite alternate;backface-visibility:hidden}
+.grid .tile:nth-child(2n) .spin img{animation-delay:-2.5s}
+.grid .tile:nth-child(3n) .spin img{animation-delay:-5s}
+@keyframes turn{from{transform:scale(1.14) rotateY(-16deg)}to{transform:scale(1.14) rotateY(16deg)}}}
+@media(max-width:599px){.grid>.tile:last-child:nth-child(odd) .spin{width:42%;flex:none}.grid>.tile:last-child:nth-child(odd) .spin img{width:100%;height:100%;min-height:100%}}
+@media(min-width:600px){.grid>.tile:only-child .spin{width:40%;flex:none}.grid>.tile:only-child .spin img{width:100%;height:100%}}
 @media(max-width:359px){.kg b{font-size:10.5px}.kgs{gap:4px}.tile .tx{padding:10px 8px 12px}}
 @media(min-width:600px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.banner{height:260px}}
 @media(prefers-reduced-motion:no-preference){.opt:active{transform:scale(.95)}}
@@ -336,7 +346,7 @@ for(const k in menu){
  <div class="opts">${[[6,a],[12,b]].map(([q,p])=>`<button class="opt" data-id="${esc(n)}|${q}" data-p="${p}"><span class="qty">${q} pcs</span><span class="p">${p} OMR</span><span class="badge"></span></button>`).join('')}</div><div class="acts"><button class="wa" data-n="${esc(n)}"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.1-.3.3-.1.6.1.3.6 1.1 1.4 1.8 1 .9 1.8 1.1 2.1 1.3.3.1.4.1.6-.1l.8-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.4.2.5.3.1.2.1.7-.1 1.5z"/></svg>WhatsApp</button><button class="sh" data-n="${esc(n)}" aria-label="Share"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg><span>Share</span></button></div></div></div>`).join('');
 }
 for(const k in gal){
- document.getElementById('g-'+k).innerHTML=gal[k].map(([f,t])=>`<div class="tile" id="p-${slug(t)}" data-n="${esc(t)}"><img src="images/${f}.jpg" alt="${esc(t)}" loading="lazy"><div class="tx"><h3>${esc(t)}</h3>${DESC[t]?`<p class="ds">${esc(DESC[t])}</p>`:''}
+ document.getElementById('g-'+k).innerHTML=gal[k].map(([f,t])=>`<div class="tile" id="p-${slug(t)}" data-n="${esc(t)}"><div class="spin"><img src="images/${f}.jpg" alt="${esc(t)}" loading="lazy"></div><div class="tx"><h3>${esc(t)}</h3>${DESC[t]?`<p class="ds">${esc(DESC[t])}</p>`:''}
  <div class="kgs" role="group" aria-label="Cake weight">${KG.map((w,i)=>`<button class="kg" aria-pressed="${i==0}" data-kg="${w}" data-p="${KGP[k][i]}"><span>${w} kg</span><small>${LB[w]} lb</small><b>${KGP[k][i]} OMR</b></button>`).join('')}</div>
  <button class="ask addc" data-t="${esc(t)}">Add ${esc(KG[0])} kg · ${KGP[k][0]} OMR</button><div class="acts"><button class="wa" data-n="${esc(t)}"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.1-.3.3-.1.6.1.3.6 1.1 1.4 1.8 1 .9 1.8 1.1 2.1 1.3.3.1.4.1.6-.1l.8-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.4.2.5.3.1.2.1.7-.1 1.5z"/></svg>WhatsApp</button><button class="sh" data-n="${esc(t)}" aria-label="Share"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg><span>Share</span></button></div></div></div>`).join('');
 }
