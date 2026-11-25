@@ -113,6 +113,7 @@ footer b{color:var(--ink)}
 .tot{display:flex;justify-content:space-between;font:800 20px "Baloo 2",sans-serif;padding:14px 0}
 label{font-weight:700;font-size:14px;display:block;margin-top:8px}
 input,textarea{width:100%;font:16px Nunito,sans-serif;padding:12px;border-radius:12px;border:2px solid var(--line);background:var(--card);color:var(--ink);margin-top:4px}
+.send.off{opacity:.45;pointer-events:none}
 .send{width:100%;margin-top:14px;min-height:54px;border-radius:16px;border:0;background:#1fa855;color:#fff;font:800 17px Nunito,sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}
 .close{float:right;width:44px;height:44px;border-radius:50%;border:2px solid var(--line);background:var(--card);color:var(--ink);font-size:22px;cursor:pointer}
 .zoom{position:fixed;inset:0;z-index:11;background:rgba(0,0,0,.85);display:none;place-items:center;padding:16px}
@@ -254,42 +255,42 @@ html{background:var(--bg)}
 </div></nav>
 
 <main class="wrap">
-  <p class="note">Please order two days before. Tap a box size or cake weight to add it, then send your order on WhatsApp.</p>
+  <p class="note">Brownies, cupcakes and cookies: please order <b>2 days</b> before.<br>All cakes: please order at least <b>3 days</b> before.<br><span style="font-weight:600">Tap a box size or cake weight to add it, then send your order on WhatsApp.</span></p>
 
   <section id="brownies">
-    <h2>Brownies</h2><p class="h2s">Boxes of 6 or 12</p>
+    <h2>Brownies</h2><p class="h2s">Boxes of 6 or 12 · order 2 days before</p>
     <div class="grid" id="m-brownies"></div>
   </section>
 
   <section id="cupcakes">
-    <h2>Cupcakes</h2><p class="h2s">Boxes of 6 or 12</p>
+    <h2>Cupcakes</h2><p class="h2s">Boxes of 6 or 12 · order 2 days before</p>
     <div class="grid" id="m-cupcakes"></div>
   </section>
 
   <section id="cookies">
-    <h2>Cookies</h2><p class="h2s">Boxes of 6 or 12</p>
+    <h2>Cookies</h2><p class="h2s">Boxes of 6 or 12 · order 2 days before</p>
     <div class="grid" id="m-cookies"></div>
   </section>
 
   <div class="custom" id="custom">
     <h2>Customised Cakes</h2>
     <p>Every cake is made fresh at home, just for you. Nothing is ready-made. Tell us your theme, colours, flavour and the name or message, and we design the cake around your idea. A moon and stars theme for a baby, cars for little boys, princess or unicorn for girls, flowers for mum. Whatever you dream of, we bake it.</p>
-    <p class="custom-s">Pick a weight below to see the price, then add your theme and details in the notes when you send your order.</p>
+    <p class="custom-s">Please order cakes at least 3 days before. Pick a weight below to see the price, then add your theme and details in the notes when you send your order.</p>
   </div>
 
   <section id="cheesecakes">
-    <h2>Cheesecakes</h2><p class="h2s">Made to order · price by weight</p>
+    <h2>Cheesecakes</h2><p class="h2s">Made to order · price by weight · order 3 days before</p>
     <div class="grid" id="g-cheesecakes"></div>
   </section>
 
   <section id="cakes">
-    <h2>Celebration cakes</h2><p class="h2s">Rosettes, sprinkles and custom colours · price by weight</p>
+    <h2>Celebration cakes</h2><p class="h2s">Rosettes, sprinkles and custom colours · price by weight · order 3 days before</p>
     <div class="grid" id="g-cakes"></div>
     <div class="inside"><img src="images/inside.jpg" alt="Inside a cake: vanilla and chocolate layers"><div><b>Inside every cake</b><div class="h2s" style="margin:4px 0 0">Soft vanilla and chocolate sponge layers with fresh cream.</div></div></div>
   </section>
 
   <section id="theme">
-    <h2>Custom theme and 3D cakes</h2><p class="h2s">Any theme you like: moon, cars, princess, cartoons and more · very detailed designs may cost more</p>
+    <h2>Custom theme and 3D cakes</h2><p class="h2s">Any theme you like: moon, cars, princess, cartoons and more · very detailed designs may cost more · order 3 days before</p>
     <div class="grid" id="g-theme"></div>
   </section>
 
@@ -305,7 +306,7 @@ html{background:var(--bg)}
   <div id="lines"></div>
   <div class="tot"><span>Total</span><span id="tot">0 OMR</span></div>
   <label for="nm">Your name</label><input id="nm" autocomplete="name">
-  <label for="dt">Needed on (at least 2 days from today)</label><input id="dt" type="date">
+  <label for="dt" id="dtl">Needed on (at least 2 days from today)</label><p id="dtw" class="h2s" style="color:var(--cherry);margin:4px 0 0;display:none"></p><input id="dt" type="date">
   <label for="nt">Notes</label><textarea id="nt" rows="2" placeholder="Cake theme, colours, flavour, name or message, pickup or delivery area"></textarea>
   <a class="send" id="send" target="_blank" rel="noopener">Send order on WhatsApp</a>
 </div></div>
@@ -385,8 +386,15 @@ $('zoom').onclick=()=>$('zoom').classList.remove('on');
 $('view').onclick=()=>$('sheet').classList.add('on');
 $('x').onclick=()=>$('sheet').classList.remove('on');
 $('sheet').onclick=e=>{if(e.target.id==='sheet')$('sheet').classList.remove('on')};
-['nm','dt','nt'].forEach(i=>$(i).addEventListener('input',render));
-const d=new Date();d.setDate(d.getDate()+2);$('dt').min=d.toISOString().slice(0,10);
+['nm','dt','nt'].forEach(i=>$(i).addEventListener('input',()=>{render();setMin()}));
+document.addEventListener('click',()=>setTimeout(setMin,0));
+const lead=()=>Object.keys(cart).some(i=>i.includes(' kg'))?3:2;
+const ymd=d=>{const z=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate())};
+function setMin(){const n=lead();const d=new Date();d.setDate(d.getDate()+n);$('dt').min=ymd(d);
+ $('dtl').textContent='Needed on (at least '+n+' days from today'+(n==3?', cakes need 3 days':'')+')';
+ const bad=$('dt').value&&$('dt').value<$('dt').min;$('dtw').style.display=bad?'block':'none';$('dtw').textContent=bad?'Please pick a date at least '+n+' days from today.':'';
+ $('send').classList.toggle('off',!!bad)}
+setMin();
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('sheet').classList.remove('on');$('zoom').classList.remove('on')}});
 render();
 $('yr').textContent=Math.max(2026,new Date().getFullYear());
