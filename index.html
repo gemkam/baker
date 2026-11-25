@@ -2,7 +2,7 @@
 <html lang="en" class="js">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>sculpted_slice Menu</title>
 <meta name="description" content="Homemade cakes, brownies, cupcakes and cheesecakes in Muscat by Mariam Rabail Rashid. Order on WhatsApp.">
 <meta property="og:type" content="website">
@@ -32,6 +32,9 @@
 --plum:#7b2d8e;--plum2:light-dark(#7b2d8e,#c88ad8);--cherry:#d7263d;--line:light-dark(#eedcf0,#3d2c45)}
 :root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;min-width:0}
+html,body{max-width:100%;overflow-x:hidden}
+@supports(overflow:clip){html,body{overflow-x:clip}}
+main{overflow-x:clip}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Nunito,system-ui,sans-serif;overflow-x:clip;padding-bottom:96px}
 a{color:inherit}
 .wrap{max-width:640px;margin:0 auto;padding:0 16px}
