@@ -113,6 +113,11 @@ input,textarea{width:100%;font:16px Nunito,sans-serif;padding:12px;border-radius
 .close{float:right;width:44px;height:44px;border-radius:50%;border:2px solid var(--line);background:var(--card);color:var(--ink);font-size:22px;cursor:pointer}
 .zoom{position:fixed;inset:0;z-index:11;background:rgba(0,0,0,.85);display:none;place-items:center;padding:16px}
 .zoom.on{display:grid}.zoom img{max-width:100%;max-height:90vh;border-radius:16px}
+@media(max-width:599px){.grid>.tile:last-child:nth-child(odd){grid-column:1/-1;flex-direction:row}
+.grid>.tile:last-child:nth-child(odd) img{width:42%;aspect-ratio:auto;height:auto;min-height:100%;flex:none}
+.grid>.tile:last-child:nth-child(odd) .tx{padding:12px}}
+@media(min-width:600px){.grid>.tile:only-child{grid-column:1/-1;flex-direction:row}.grid>.tile:only-child img{width:40%;aspect-ratio:auto;flex:none}}
+.addc{white-space:nowrap;font-size:13px!important}
 @media(max-width:359px){.kg b{font-size:10.5px}.kgs{gap:4px}.tile .tx{padding:10px 8px 12px}}
 @media(min-width:600px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.banner{height:260px}}
 @media(prefers-reduced-motion:no-preference){.opt:active{transform:scale(.95)}}
