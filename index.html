@@ -73,8 +73,10 @@ h2{font:800 30px/1.1 "Baloo 2",sans-serif;margin:34px 0 4px}
 .tile .tx{padding:10px 12px 12px;display:flex;flex-direction:column;gap:8px;flex:1}
 .tile h3{margin:0;font-size:15px;line-height:1.3}
 .tile .ask{margin-top:auto;min-height:40px;border-radius:12px;background:var(--pink);border:0;font:inherit;font-weight:800;font-size:14px;color:var(--ink);text-decoration:none;display:grid;place-items:center;text-align:center}
-.kgs{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
-.kg{min-height:36px;padding:0;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-weight:800;font-size:12px;cursor:pointer;white-space:nowrap}
+.kgs{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.kg{min-height:46px;padding:2px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.15;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-weight:800;font-size:12px;cursor:pointer;white-space:nowrap}
+.kg b{font-size:13px;color:var(--plum2)}.kg[aria-pressed=true] b{color:#fff}
+.addc{cursor:pointer;width:100%}
 .kg[aria-pressed=true]{background:var(--plum);border-color:var(--plum);color:#fff}
 .flvl{font-size:13px;margin:0;color:var(--soft)}
 .flv{width:100%;margin-top:4px;min-height:40px;padding:6px 8px;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--ink);font:700 14px Nunito,sans-serif}
@@ -183,7 +185,7 @@ input,textarea{width:100%;font:16px Nunito,sans-serif;padding:12px;border-radius
 </div></nav>
 
 <main class="wrap">
-  <p class="note">Please order two days before. Tap a box size to add it, then send your order on WhatsApp.</p>
+  <p class="note">Please order two days before. Tap a box size or cake weight to add it, then send your order on WhatsApp.</p>
 
   <section id="brownies">
     <h2>Brownies</h2><p class="h2s">Boxes of 6 or 12</p>
@@ -201,18 +203,18 @@ input,textarea{width:100%;font:16px Nunito,sans-serif;padding:12px;border-radius
   </section>
 
   <section id="cheesecakes">
-    <h2>Cheesecakes</h2><p class="h2s">Made to order · pick the weight and ask price</p>
+    <h2>Cheesecakes</h2><p class="h2s">Made to order · price by weight</p>
     <div class="grid" id="g-cheesecakes"></div>
   </section>
 
   <section id="cakes">
-    <h2>Celebration cakes</h2><p class="h2s">Rosettes, sprinkles and custom colours · pick the weight in kg</p>
+    <h2>Celebration cakes</h2><p class="h2s">Rosettes, sprinkles and custom colours · price by weight</p>
     <div class="grid" id="g-cakes"></div>
     <div class="inside"><img src="images/inside.jpg" alt="Inside a cake: vanilla and chocolate layers"><div><b>Inside every cake</b><div class="h2s" style="margin:4px 0 0">Soft vanilla and chocolate sponge layers with fresh cream.</div></div></div>
   </section>
 
   <section id="theme">
-    <h2>Theme and 3D cakes</h2><p class="h2s">Hand-sculpted for birthdays · pick the weight in kg</p>
+    <h2>Theme and 3D cakes</h2><p class="h2s">Hand-sculpted for birthdays · price by weight, very detailed designs may cost more</p>
     <div class="grid" id="g-theme"></div>
   </section>
 
@@ -238,7 +240,7 @@ input,textarea{width:100%;font:16px Nunito,sans-serif;padding:12px;border-radius
 {
 const WA='96879994021';
 const menu={
- brownies:[['Plain brownies',3,4,'m-plain'],['Fudge brownies',4,6,'brownies'],['Loaded brownies',7,9,'m-loaded',['Nutella','Lotus Biscoff','Oreo','Kinder','Ferrero Rocher','Pistachio kunafa','Salted caramel','Smarties and M&Ms','Marshmallow smores','Mixed nuts']]],
+ brownies:[['Plain brownies',3,4,'m-plain'],['Fudge brownies',4,6,'brownies'],['Loaded brownies',7,9,'m-loaded',[['Nutella',0],['Lotus Biscoff',0],['Oreo',0],['Salted caramel',0],['Smarties and M&Ms',0],['Marshmallow smores',0],['Kinder',1],['Ferrero Rocher',1],['Pistachio kunafa',1],['Mixed nuts',1]]]],
  cupcakes:[['Vanilla or chocolate cupcakes',3,5,'m-vanchoc'],['Mocha cupcakes',4,6,'mocha'],['Marble cupcakes',4,8,'m-marble'],['Cookies n cream cupcakes',4,8,'m-oreo'],['Biscoff cupcakes',4,8,'m-biscoff']],
  cookies:[['Chocolate chip cookies',3,5,'https://unsplash.com/photos/8DWN4Gui9Yk/download?w=600'],['Double chocolate cookies',4,6,'https://unsplash.com/photos/4fl4XVhH8Y4/download?w=600'],['Chunky chocolate cookies',4,7,'https://unsplash.com/photos/W8blK2FRmBw/download?w=600']]
 };
@@ -249,36 +251,38 @@ const gal={
 };
 const cart={};
 const KG=['1','1.5','2','3'];
-const askHref=(t,w)=>`https://wa.me/${WA}?text=${encodeURIComponent('Hello Mariam, I would like the price for: '+t+' ('+w+' kg)')}`;
+const KGP={cheesecakes:[11,16,21,30],cakes:[9,13,17,25],theme:[14,20,26,38]};
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 for(const k in menu){
  document.getElementById('m-'+k).innerHTML=menu[k].map(([n,a,b,img,fl])=>`<div class="tile"><img src="${img.startsWith('http')?img:'images/'+img+'.jpg'}" alt="${esc(n)}" loading="lazy" onerror="this.style.visibility='hidden'"><div class="tx"><h3>${esc(n)}</h3>
- ${fl?`<label class="flvl">Loaded with<select class="flv">${fl.map(f=>`<option>${esc(f)}</option>`).join('')}</select></label>`:''}
+ ${fl?`<label class="flvl">Loaded with<select class="flv">${fl.map(([f,x])=>`<option value="${esc(f)}" data-x="${x}">${esc(f)}${x?' (+'+x+' OMR per 6)':''}</option>`).join('')}</select></label>`:''}
  <div class="opts">${[[6,a],[12,b]].map(([q,p])=>`<button class="opt" data-id="${esc(n)}|${q}" data-p="${p}"><span class="qty">${q} pcs</span><span class="p">${p} OMR</span><span class="badge"></span></button>`).join('')}</div></div></div>`).join('');
 }
 for(const k in gal){
  document.getElementById('g-'+k).innerHTML=gal[k].map(([f,t])=>`<div class="tile"><img src="images/${f}.jpg" alt="${esc(t)}" loading="lazy"><div class="tx"><h3>${esc(t)}</h3>
- <div class="kgs" role="group" aria-label="Cake weight">${KG.map((w,i)=>`<button class="kg" aria-pressed="${i==0}" data-kg="${w}">${w} kg</button>`).join('')}</div>
- <a class="ask" target="_blank" rel="noopener" data-t="${esc(t)}" href="${askHref(t,KG[0])}">Ask price</a></div></div>`).join('');
+ <div class="kgs" role="group" aria-label="Cake weight">${KG.map((w,i)=>`<button class="kg" aria-pressed="${i==0}" data-kg="${w}" data-p="${KGP[k][i]}"><span>${w} kg</span><b>${KGP[k][i]} OMR</b></button>`).join('')}</div>
+ <button class="ask addc" data-t="${esc(t)}">Add ${esc(KG[0])} kg · ${KGP[k][0]} OMR</button></div></div>`).join('');
 }
 const $=id=>document.getElementById(id);
 function render(){
  const ids=Object.keys(cart);let n=0,t=0;
  ids.forEach(i=>{n+=cart[i].q;t+=cart[i].q*cart[i].p});
  $('bar').classList.toggle('on',n>0);
- $('cnt').textContent=n+(n==1?' box':' boxes')+' · View order';$('sum').textContent=t+' OMR';$('tot').textContent=t+' OMR';
- $('lines').innerHTML=ids.map(i=>{const [nm,q]=i.split('|');return `<div class="li"><span>${esc(nm)}<br><span class="qty">Box of ${q}</span></span>
+ $('cnt').textContent=n+(n==1?' item':' items')+' · View order';$('sum').textContent=t+' OMR';$('tot').textContent=t+' OMR';
+ $('lines').innerHTML=ids.map(i=>{const [nm,q]=i.split('|');return `<div class="li"><span>${esc(nm)}<br><span class="qty">${q.includes('kg')?'Cake '+q:'Box of '+q}</span></span>
  <span class="step"><button data-d="-1" data-i="${esc(i)}" aria-label="Less">−</button><b>${cart[i].q}</b><button data-d="1" data-i="${esc(i)}" aria-label="More">+</button></span><span class="p">${cart[i].q*cart[i].p} OMR</span></div>`}).join('')||'<p class="h2s">No items yet.</p>';
  document.querySelectorAll('.opt').forEach(b=>{const [nm,q]=b.dataset.id.split('|');let c=0;for(const i in cart){const [n2,q2]=i.split('|');if(q2==q&&(n2==nm||n2.startsWith(nm+' (')))c+=cart[i].q}b.classList.toggle('added',c>0);b.querySelector('.badge').textContent=c||''});
- const msg=['Hello Mariam, I want to order from sculpted_slice:',...ids.map(i=>{const [nm,q]=i.split('|');return `- ${cart[i].q} x ${nm} (box of ${q}) = ${cart[i].q*cart[i].p} OMR`}),`Total: ${t} OMR`];
+ const msg=['Hello Mariam, I want to order from sculpted_slice:',...ids.map(i=>{const [nm,q]=i.split('|');return `- ${cart[i].q} x ${nm} (${q.includes('kg')?q:'box of '+q}) = ${cart[i].q*cart[i].p} OMR`}),`Total: ${t} OMR`];
  if($('nm').value)msg.push('Name: '+$('nm').value);if($('dt').value)msg.push('Needed on: '+$('dt').value);if($('nt').value)msg.push('Notes: '+$('nt').value);
  $('send').href=`https://wa.me/${WA}?text=${encodeURIComponent(msg.join('\n'))}`;
 }
 document.addEventListener('click',e=>{
  const o=e.target.closest('.opt');
- if(o){let i=o.dataset.id;const f=o.closest('.tile').querySelector('.flv');if(f){const [nm,q]=i.split('|');i=nm+' ('+f.value+')|'+q}cart[i]=cart[i]||{q:0,p:+o.dataset.p};cart[i].q++;render();return}
+ if(o){let i=o.dataset.id;const f=o.closest('.tile').querySelector('.flv');let p=+o.dataset.p;if(f){const [nm,q]=i.split('|');i=nm+' ('+f.value+')|'+q;p+= +f.selectedOptions[0].dataset.x*(q==12?2:1)}cart[i]=cart[i]||{q:0,p};cart[i].q++;render();return}
  const kg=e.target.closest('.kg');
- if(kg){const tl=kg.closest('.tile');tl.querySelectorAll('.kg').forEach(b=>b.setAttribute('aria-pressed',b===kg));const a=tl.querySelector('.ask');a.href=askHref(a.dataset.t,kg.dataset.kg);return}
+ if(kg){const tl=kg.closest('.tile');tl.querySelectorAll('.kg').forEach(b=>b.setAttribute('aria-pressed',b===kg));tl.querySelector('.addc').textContent=`Add ${kg.dataset.kg} kg · ${kg.dataset.p} OMR`;return}
+ const ad=e.target.closest('.addc');
+ if(ad){const sel=ad.closest('.tile').querySelector('.kg[aria-pressed=true]');const i=`${ad.dataset.t}|${sel.dataset.kg} kg`;cart[i]=cart[i]||{q:0,p:+sel.dataset.p};cart[i].q++;render();ad.textContent='Added ✓';setTimeout(()=>{ad.textContent=`Add ${sel.dataset.kg} kg · ${sel.dataset.p} OMR`},1200);return}
  const s=e.target.closest('.step button');
  if(s){const i=s.dataset.i;cart[i].q+= +s.dataset.d;if(cart[i].q<1)delete cart[i];render();return}
  const im=e.target.closest('.tile img');
