@@ -294,7 +294,7 @@ function itemText(tile){
  const n=tile.dataset.n;const f=tile.querySelector('.flv');const kg=tile.querySelector('.kg[aria-pressed=true]');
  let t=n+(f?' ('+f.value+')':'');
  if(kg)t+=' · '+kg.dataset.kg+' kg ('+LB[kg.dataset.kg]+' lb) · '+kg.dataset.p+' OMR';
- else if(tile.dataset.pr)t+=' · '+tile.dataset.pr;
+ else{const o=[...tile.querySelectorAll('.opt')];const x=f?+f.selectedOptions[0].dataset.x:0;t+=' · '+o.map(b=>{const q=b.dataset.id.split('|')[1];return q+' pcs '+(+b.dataset.p+x*(q==12?2:1))+' OMR'}).join(', ')}
  return t}
 const KG=['1','1.5','2','3'];
 const LB={'1':'2.2','1.5':'3.3','2':'4.4','3':'6.6'};
